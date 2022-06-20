@@ -1,0 +1,22 @@
+.modal-confirm {
+	text-align: center;
+}
+.icon-box i {
+	font-size: 65px !important;
+	color: #e74a3b;
+}
+.icon-box {
+	text-align: center;
+	margin: auto;
+}
+.modal-header {
+	border-bottom: 0 !important;
+}
+.modal-footer {
+	border-top: 0 !important;
+}
+.logo {
+	width: 280px!important;
+	background-color: #7271b4!important;
+	padding: 5px!important;
+}

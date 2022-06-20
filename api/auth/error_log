@@ -1,0 +1,103 @@
+[19-May-2022 10:04:41 UTC] PHP Fatal error:  Uncaught Error: Using $this when not in object context in /home1/brandzrx/Divyakalash.com/dvkadmin/api/auth/registerbyemail.php:34
+Stack trace:
+#0 {main}
+  thrown in /home1/brandzrx/Divyakalash.com/dvkadmin/api/auth/registerbyemail.php on line 34
+[19-May-2022 10:05:14 UTC] PHP Fatal error:  Uncaught Error: Using $this when not in object context in /home1/brandzrx/Divyakalash.com/dvkadmin/api/auth/registerbyemail.php:34
+Stack trace:
+#0 {main}
+  thrown in /home1/brandzrx/Divyakalash.com/dvkadmin/api/auth/registerbyemail.php on line 34
+[19-May-2022 10:06:37 UTC] PHP Fatal error:  Uncaught Error: Using $this when not in object context in /home1/brandzrx/Divyakalash.com/dvkadmin/api/auth/registerbyemail.php:34
+Stack trace:
+#0 {main}
+  thrown in /home1/brandzrx/Divyakalash.com/dvkadmin/api/auth/registerbyemail.php on line 34
+[19-May-2022 10:06:48 UTC] PHP Fatal error:  Uncaught Error: Using $this when not in object context in /home1/brandzrx/Divyakalash.com/dvkadmin/api/auth/registerbyemail.php:34
+Stack trace:
+#0 {main}
+  thrown in /home1/brandzrx/Divyakalash.com/dvkadmin/api/auth/registerbyemail.php on line 34
+[19-May-2022 11:05:31 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function issset() in /home1/brandzrx/Divyakalash.com/dvkadmin/api/auth/update-profile.php:15
+Stack trace:
+#0 {main}
+  thrown in /home1/brandzrx/Divyakalash.com/dvkadmin/api/auth/update-profile.php on line 15
+[19-May-2022 11:05:57 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function getRows() in /home1/brandzrx/Divyakalash.com/dvkadmin/api/auth/update-profile.php:23
+Stack trace:
+#0 {main}
+  thrown in /home1/brandzrx/Divyakalash.com/dvkadmin/api/auth/update-profile.php on line 23
+[19-May-2022 11:06:18 UTC] PHP Notice:  Undefined variable: token in /home1/brandzrx/Divyakalash.com/dvkadmin/api/auth/update-profile.php on line 29
+[19-May-2022 11:06:18 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function response() in /home1/brandzrx/Divyakalash.com/dvkadmin/api/auth/update-profile.php:35
+Stack trace:
+#0 {main}
+  thrown in /home1/brandzrx/Divyakalash.com/dvkadmin/api/auth/update-profile.php on line 35
+[19-May-2022 11:06:38 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function response() in /home1/brandzrx/Divyakalash.com/dvkadmin/api/auth/update-profile.php:35
+Stack trace:
+#0 {main}
+  thrown in /home1/brandzrx/Divyakalash.com/dvkadmin/api/auth/update-profile.php on line 35
+[19-May-2022 12:01:14 UTC] PHP Notice:  Undefined variable: data in /home1/brandzrx/Divyakalash.com/dvkadmin/api/auth/update-profile.php on line 65
+[19-May-2022 12:01:14 UTC] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in /home1/brandzrx/Divyakalash.com/dvkadmin/DB.class.php on line 118
+[19-May-2022 12:01:14 UTC] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in /home1/brandzrx/Divyakalash.com/dvkadmin/DB.class.php on line 120
+[19-May-2022 12:01:14 UTC] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in /home1/brandzrx/Divyakalash.com/dvkadmin/DB.class.php on line 130
+[19-May-2022 12:01:14 UTC] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in /home1/brandzrx/Divyakalash.com/dvkadmin/DB.class.php on line 140
+[19-May-2022 12:01:14 UTC] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in /home1/brandzrx/Divyakalash.com/dvkadmin/DB.class.php on line 152
+[19-May-2022 12:01:14 UTC] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in /home1/brandzrx/Divyakalash.com/dvkadmin/DB.class.php on line 164
+[19-May-2022 12:01:14 UTC] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in /home1/brandzrx/Divyakalash.com/dvkadmin/DB.class.php on line 168
+[19-May-2022 12:01:14 UTC] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in /home1/brandzrx/Divyakalash.com/dvkadmin/DB.class.php on line 170
+[19-May-2022 12:01:14 UTC] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in /home1/brandzrx/Divyakalash.com/dvkadmin/DB.class.php on line 170
+[19-May-2022 12:01:14 UTC] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in /home1/brandzrx/Divyakalash.com/dvkadmin/DB.class.php on line 175
+[19-May-2022 12:01:14 UTC] PHP Notice:  Undefined variable: response in /home1/brandzrx/Divyakalash.com/dvkadmin/api/auth/update-profile.php on line 67
+[19-May-2022 12:02:18 UTC] PHP Notice:  Undefined variable: data in /home1/brandzrx/Divyakalash.com/dvkadmin/api/auth/update-profile.php on line 65
+[19-May-2022 12:02:18 UTC] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in /home1/brandzrx/Divyakalash.com/dvkadmin/DB.class.php on line 118
+[19-May-2022 12:02:18 UTC] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in /home1/brandzrx/Divyakalash.com/dvkadmin/DB.class.php on line 120
+[19-May-2022 12:02:18 UTC] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in /home1/brandzrx/Divyakalash.com/dvkadmin/DB.class.php on line 130
+[19-May-2022 12:02:18 UTC] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in /home1/brandzrx/Divyakalash.com/dvkadmin/DB.class.php on line 140
+[19-May-2022 12:02:18 UTC] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in /home1/brandzrx/Divyakalash.com/dvkadmin/DB.class.php on line 152
+[19-May-2022 12:02:18 UTC] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in /home1/brandzrx/Divyakalash.com/dvkadmin/DB.class.php on line 164
+[19-May-2022 12:02:18 UTC] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in /home1/brandzrx/Divyakalash.com/dvkadmin/DB.class.php on line 168
+[19-May-2022 12:02:18 UTC] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in /home1/brandzrx/Divyakalash.com/dvkadmin/DB.class.php on line 170
+[19-May-2022 12:02:18 UTC] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in /home1/brandzrx/Divyakalash.com/dvkadmin/DB.class.php on line 170
+[19-May-2022 12:02:18 UTC] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in /home1/brandzrx/Divyakalash.com/dvkadmin/DB.class.php on line 175
+[19-May-2022 12:02:18 UTC] PHP Notice:  Undefined variable: user in /home1/brandzrx/Divyakalash.com/dvkadmin/api/auth/update-profile.php on line 68
+[19-May-2022 12:04:10 UTC] PHP Notice:  Undefined variable: data in /home1/brandzrx/Divyakalash.com/dvkadmin/api/auth/update-profile.php on line 65
+[19-May-2022 12:04:10 UTC] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in /home1/brandzrx/Divyakalash.com/dvkadmin/DB.class.php on line 118
+[19-May-2022 12:04:10 UTC] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in /home1/brandzrx/Divyakalash.com/dvkadmin/DB.class.php on line 120
+[19-May-2022 12:04:10 UTC] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in /home1/brandzrx/Divyakalash.com/dvkadmin/DB.class.php on line 130
+[19-May-2022 12:04:10 UTC] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in /home1/brandzrx/Divyakalash.com/dvkadmin/DB.class.php on line 140
+[19-May-2022 12:04:10 UTC] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in /home1/brandzrx/Divyakalash.com/dvkadmin/DB.class.php on line 152
+[19-May-2022 12:04:10 UTC] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in /home1/brandzrx/Divyakalash.com/dvkadmin/DB.class.php on line 164
+[19-May-2022 12:04:10 UTC] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in /home1/brandzrx/Divyakalash.com/dvkadmin/DB.class.php on line 168
+[19-May-2022 12:04:10 UTC] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in /home1/brandzrx/Divyakalash.com/dvkadmin/DB.class.php on line 170
+[19-May-2022 12:04:10 UTC] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in /home1/brandzrx/Divyakalash.com/dvkadmin/DB.class.php on line 170
+[19-May-2022 12:04:10 UTC] PHP Warning:  array_key_exists() expects parameter 2 to be array, null given in /home1/brandzrx/Divyakalash.com/dvkadmin/DB.class.php on line 175
+[19-May-2022 12:04:10 UTC] PHP Notice:  Undefined variable: user in /home1/brandzrx/Divyakalash.com/dvkadmin/api/auth/update-profile.php on line 68
+[19-May-2022 12:05:20 UTC] PHP Notice:  Undefined variable: user in /home1/brandzrx/Divyakalash.com/dvkadmin/api/auth/update-profile.php on line 68
+[19-May-2022 13:41:03 UTC] PHP Warning:  file_get_contents(): Filename cannot be empty in /home1/brandzrx/Divyakalash.com/dvkadmin/api/auth/socialregister.php on line 69
+[19-May-2022 19:15:27 UTC] PHP Warning:  file_get_contents(): Filename cannot be empty in /home1/brandzrx/Divyakalash.com/dvkadmin/api/auth/socialregister.php on line 69
+[19-May-2022 19:28:58 UTC] PHP Warning:  file_get_contents(): Filename cannot be empty in /home1/brandzrx/Divyakalash.com/dvkadmin/api/auth/socialregister.php on line 69
+[20-May-2022 11:50:36 UTC] PHP Warning:  unlink(..): Is a directory in /home1/brandzrx/Divyakalash.com/dvkadmin/api/auth/socialregister.php on line 70
+[20-May-2022 12:28:21 UTC] PHP Warning:  unlink(..img/photos/profile_1653049542.jpg): No such file or directory in /home1/brandzrx/Divyakalash.com/dvkadmin/api/auth/socialregister.php on line 70
+[20-May-2022 14:08:46 UTC] PHP Warning:  file_get_contents(): Filename cannot be empty in /home1/brandzrx/Divyakalash.com/dvkadmin/api/auth/socialregister.php on line 34
+[23-May-2022 08:27:00 UTC] PHP Warning:  unlink(..img/photos/profile_1653284150.jpg): No such file or directory in /home1/brandzrx/Divyakalash.com/dvkadmin/api/auth/socialregister.php on line 70
+[23-May-2022 20:31:09 UTC] PHP Warning:  file_get_contents(): Filename cannot be empty in /home1/brandzrx/Divyakalash.com/dvkadmin/api/auth/socialregister.php on line 34
+[24-May-2022 09:32:09 UTC] PHP Warning:  unlink(..): Is a directory in /home1/brandzrx/Divyakalash.com/dvkadmin/api/auth/update-profile.php on line 63
+[24-May-2022 09:33:40 UTC] PHP Warning:  unlink(../): Is a directory in /home1/brandzrx/Divyakalash.com/dvkadmin/api/auth/update-profile.php on line 63
+[29-May-2022 13:32:43 UTC] PHP Warning:  file_get_contents(): Filename cannot be empty in /home1/brandzrx/Divyakalash.com/dvkadmin/api/auth/socialregister.php on line 69
+[29-May-2022 13:32:43 UTC] PHP Warning:  unlink(..img/photos/profile_1653337869.jpg): No such file or directory in /home1/brandzrx/Divyakalash.com/dvkadmin/api/auth/socialregister.php on line 70
+[30-May-2022 05:16:13 UTC] PHP Warning:  unlink(../): Is a directory in /home1/brandzrx/Divyakalash.com/dvkadmin/api/auth/update-profile.php on line 63
+[30-May-2022 12:12:30 UTC] PHP Warning:  unlink(..img/photos/profile_1653391125.jpg): No such file or directory in /home1/brandzrx/Divyakalash.com/dvkadmin/api/auth/socialregister.php on line 70
+[31-May-2022 11:14:10 UTC] PHP Warning:  Undefined array key "midname" in /home/divyakalash/public_html/dvkadmin/api/auth/socialregister.php on line 59
+[31-May-2022 11:14:10 UTC] PHP Warning:  file_get_contents(): https:// wrapper is disabled in the server configuration by allow_url_fopen=0 in /home/divyakalash/public_html/dvkadmin/api/auth/socialregister.php on line 69
+[31-May-2022 11:14:10 UTC] PHP Warning:  file_get_contents(https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=5763351887027407&amp;height=50&amp;width=50&amp;ext=1656587649&amp;hash=AeTMtLSGktrtiGF5Wkc): Failed to open stream: no suitable wrapper could be found in /home/divyakalash/public_html/dvkadmin/api/auth/socialregister.php on line 69
+[31-May-2022 11:14:49 UTC] PHP Warning:  Undefined array key "midname" in /home/divyakalash/public_html/dvkadmin/api/auth/socialregister.php on line 59
+[31-May-2022 11:14:49 UTC] PHP Warning:  file_get_contents(): https:// wrapper is disabled in the server configuration by allow_url_fopen=0 in /home/divyakalash/public_html/dvkadmin/api/auth/socialregister.php on line 69
+[31-May-2022 11:14:49 UTC] PHP Warning:  file_get_contents(https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=5763351887027407&amp;height=50&amp;width=50&amp;ext=1656587687&amp;hash=AeSAxyJD2hIR2950O54): Failed to open stream: no suitable wrapper could be found in /home/divyakalash/public_html/dvkadmin/api/auth/socialregister.php on line 69
+[31-May-2022 11:16:13 UTC] PHP Warning:  Undefined array key "midname" in /home/divyakalash/public_html/dvkadmin/api/auth/socialregister.php on line 59
+[31-May-2022 11:16:13 UTC] PHP Warning:  file_get_contents(): https:// wrapper is disabled in the server configuration by allow_url_fopen=0 in /home/divyakalash/public_html/dvkadmin/api/auth/socialregister.php on line 69
+[31-May-2022 11:16:13 UTC] PHP Warning:  file_get_contents(https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=5763351887027407&amp;height=50&amp;width=50&amp;ext=1656587772&amp;hash=AeRZVxB011NxquQlPpM): Failed to open stream: no suitable wrapper could be found in /home/divyakalash/public_html/dvkadmin/api/auth/socialregister.php on line 69
+[31-May-2022 11:20:22 UTC] PHP Warning:  Undefined array key "midname" in /home/divyakalash/public_html/dvkadmin/api/auth/socialregister.php on line 59
+[31-May-2022 11:20:22 UTC] PHP Warning:  file_get_contents(): https:// wrapper is disabled in the server configuration by allow_url_fopen=0 in /home/divyakalash/public_html/dvkadmin/api/auth/socialregister.php on line 69
+[31-May-2022 11:20:22 UTC] PHP Warning:  file_get_contents(https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=5763351887027407&amp;height=50&amp;width=50&amp;ext=1656588021&amp;hash=AeRZwBq6XLoEwrJbH00): Failed to open stream: no suitable wrapper could be found in /home/divyakalash/public_html/dvkadmin/api/auth/socialregister.php on line 69
+[31-May-2022 11:20:54 UTC] PHP Warning:  Undefined array key "midname" in /home/divyakalash/public_html/dvkadmin/api/auth/socialregister.php on line 59
+[31-May-2022 11:20:54 UTC] PHP Warning:  file_get_contents(): https:// wrapper is disabled in the server configuration by allow_url_fopen=0 in /home/divyakalash/public_html/dvkadmin/api/auth/socialregister.php on line 69
+[31-May-2022 11:20:54 UTC] PHP Warning:  file_get_contents(https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=5763351887027407&amp;height=50&amp;width=50&amp;ext=1656588053&amp;hash=AeRFxONKeIhXdXFWqrw): Failed to open stream: no suitable wrapper could be found in /home/divyakalash/public_html/dvkadmin/api/auth/socialregister.php on line 69
+[31-May-2022 11:22:54 UTC] PHP Warning:  Undefined array key "midname" in /home/divyakalash/public_html/dvkadmin/api/auth/socialregister.php on line 61
+[31-May-2022 22:04:25 UTC] PHP Warning:  unlink(../): Is a directory in /home/divyakalash/public_html/dvkadmin/api/auth/update-profile.php on line 63
+[01-Jun-2022 12:42:33 UTC] PHP Warning:  unlink(..img/photos/profile_1654057754.jpg): No such file or directory in /home/divyakalash/public_html/dvkadmin/api/auth/socialregister.php on line 83
+[04-Jun-2022 12:17:36 UTC] PHP Warning:  unlink(../): Is a directory in /home/divyakalash/public_html/dvkadmin/api/auth/update-profile.php on line 61
