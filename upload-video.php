@@ -288,6 +288,7 @@ $categories = $db->getRows('categories', $con);
                                     <option value="live">Live</option>
                                     <option value="youtube">Youtube</option>
                                     <option value="recorded">Recorded</option>
+                                    <option value="audio">Audio</option>
                                 </select>
                                 <div class="valid-feedback">
                                     Looks good!
@@ -478,6 +479,10 @@ $categories = $db->getRows('categories', $con);
             $('#divvideo').addClass('d-none');
             $('#divaudio').addClass('d-none');
             $('#liveurl').removeClass('d-none');
+        } else if (valueSelectedType == "audio") {
+            $('#divvideo').addClass('d-none');
+            $('#divaudio').removeClass('d-none');
+            $('#liveurl').addClass('d-none');
         } else if (valueSelectedType == 'youtube') {
             $('#divvideo').addClass('d-none');
             $('#divaudio').addClass('d-none');
@@ -487,15 +492,6 @@ $categories = $db->getRows('categories', $con);
             $('#divaudio').addClass('d-none');
             $('#divvideo').removeClass('d-none');
         }
-
-        /*if(){
-            
-        }else{
-            $('#divaudio').addClass('d-none');
-            $('#divvideo').removeClass('d-none');
-        }*/
-
-
     });
 </script>
 

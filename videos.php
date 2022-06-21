@@ -470,6 +470,7 @@ $explore_videos = $db->readExploreVideos();
                                 <option value="live">Live</option>
                                 <option value="youtube">Youtube</option>
                                 <option value="recorded">Recorded</option>
+                                <option value="audio">Audio</option>
                             </select>
                             <div class="valid-feedback">
                                 Looks good!
@@ -959,9 +960,15 @@ $explore_videos = $db->readExploreVideos();
         var valueSelectedType = this.value;
         if (valueSelectedType == "live") {
             $('#divvideo').addClass('d-none');
+            $('#divaudio').addClass('d-none');
             $('#liveurl').removeClass('d-none');
+        } else if (valueSelectedType == "audio") {
+            $('#divvideo').addClass('d-none');
+            $('#divaudio').removeClass('d-none');
+            $('#liveurl').addClass('d-none');
         } else {
             $('#liveurl').addClass('d-none');
+            $('#divaudio').addClass('d-none');
             $('#divvideo').removeClass('d-none');
         }
     });
