@@ -8,64 +8,64 @@ $db = new DB();
 // Database table name
 $usersTbl = 'users';
 
-if(isset($_POST['login-submit'])){
-    // Get form fields value
-    $username = trim(strip_tags($_POST['username']));
-    $password = trim(strip_tags($_POST['input_pwd']));
+if (isset($_POST['login-submit'])) {
+  // Get form fields value
+  $username = trim(strip_tags($_POST['username']));
+  $password = trim(strip_tags($_POST['input_pwd']));
 
-    // Fields validation
-    $errorMsg = '';
+  // Fields validation
+  $errorMsg = '';
 
-    if(empty($username)){
-        $errorMsg .= '<li>Please enter a valid email id.</li>';
+  if (empty($username)) {
+    $errorMsg .= '<li>Please enter a valid email id.</li>';
+  }
+  if (empty($password)) {
+    $errorMsg .= '<li>Please enter your password.</li>';
+  }
+  // Submit the form data
+  if (empty($errorMsg)) {
+    // Submitted form data
+    $conditions['where'] = array(
+      'email' => $username,
+      'password' => md5($password),
+      'status' => 1
+    );
+
+    $conditions['return_type'] = 'single';
+    $userData = $db->getRows($usersTbl, $conditions);
+    $userData = !empty($sessData['userData']) ? $sessData['userData'] : $userData;
+
+    if (!empty($userData) && count($userData) > 1) {
+      setcookie('mid', $userData['id'], time() + (86400 * 30), "/"); // 86400 = 1 day
+      setcookie('type', $userData['role'], time() + (86400 * 30), "/"); // 86400 = 1 day
+      $sessData['status']['type'] = 'success';
+      $sessData['status']['msg'] = 'You are successfully logged in.';
+
+      if ($userData['role'] == 'Admin') {
+        $redirectURL = 'index.php';
+      }
+
+      header("Location:" . $redirectURL);
+      // Remote submitted fields value from session
+      unset($sessData['userData']);
+      exit;
+    } else {
+      $sessData['status']['type'] = 'error';
+      $sessData['status']['msg'] = '<li>Invalid username/Password</li>';
     }
-    if(empty($password)){
-        $errorMsg .= '<li>Please enter your password.</li>';
-    }
-    // Submit the form data
-    if(empty($errorMsg)){
-        // Submitted form data
-        $conditions['where'] = array(
-            'email' => $username,
-            'password' => md5($password),
-            'status' => 1
-        );
+  } else {
+    $sessData['status']['type'] = 'error';
+    $sessData['status']['msg'] = '<li>Please fill all the mandatory fields.</li>' . $errorMsg;
+  }
 
-        $conditions['return_type'] = 'single';
-        $userData = $db->getRows($usersTbl, $conditions);
-        $userData = !empty($sessData['userData'])?$sessData['userData']:$userData;
+  // Get status message from session
+  if (!empty($sessData['status']['msg'])) {
+    $statusMsg = $sessData['status']['msg'];
+    $statusMsgType = $sessData['status']['type'];
+  }
 
-        if(!empty($userData) && count($userData) > 1){
-            setcookie('mid', $userData['id'], time() + (86400 * 30), "/"); // 86400 = 1 day
-            setcookie('type', $userData['role'], time() + (86400 * 30), "/"); // 86400 = 1 day
-            $sessData['status']['type'] = 'success';
-            $sessData['status']['msg'] = 'You are successfully logged in.';
-            
-            if($userData['role'] == 'Admin'){
-                $redirectURL = 'index.php';
-            }
-            
-            header("Location:".$redirectURL);
-            // Remote submitted fields value from session
-            unset($sessData['userData']);exit;
-        }
-        else{
-            $sessData['status']['type'] = 'error';
-            $sessData['status']['msg'] = '<li>Invalid username/Password</li>';
-        }
-    }else{
-        $sessData['status']['type'] = 'error';
-        $sessData['status']['msg'] = '<li>Please fill all the mandatory fields.</li>'.$errorMsg;
-    }
-
-    // Get status message from session
-    if(!empty($sessData['status']['msg'])){
-        $statusMsg = $sessData['status']['msg'];
-        $statusMsgType = $sessData['status']['type'];
-    }
-
-    // Store status into the session
-    $_SESSION['sessData'] = $sessData;
+  // Store status into the session
+  $_SESSION['sessData'] = $sessData;
 }
 $path = DB::getBasePath();
 ?>
@@ -108,14 +108,16 @@ $path = DB::getBasePath();
                 <div class="p-5">
                   <div class="text-center">
                     <!--<h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>-->
-                      <h1 class="h4 text-gray-900 mb-4">Admin</h1>
+                    <h1 class="h4 text-gray-900 mb-4">Admin</h1>
                   </div>
-                    <?php if(!empty($statusMsg) && ($statusMsgType == 'error')){ ?>
-                        <p class="col-xs-12">
-                        <div class="alert alert-danger"><ul><?php echo $statusMsg; ?></ul></div>
-                        </p>
-                    <?php }?>
-                    <div id="msg"></div><br>
+                  <?php if (!empty($statusMsg) && ($statusMsgType == 'error')) { ?>
+                    <p class="col-xs-12">
+                    <div class="alert alert-danger">
+                      <ul><?php echo $statusMsg; ?></ul>
+                    </div>
+                    </p>
+                  <?php } ?>
+                  <div id="msg"></div><br>
                   <form class="user" method="post">
                     <div class="form-group">
                       <input type="email" class="form-control form-control-user" id="username" name="username" aria-describedby="emailHelp" placeholder="Enter Email Address...">
@@ -157,25 +159,25 @@ $path = DB::getBasePath();
   <!-- Custom scripts for all pages-->
   <script src="js/sb-admin-2.min.js"></script>
 
-<script>
-    $('#btn_login').on('click', function(){
-        var user = $.trim($('#username').val());
-        var pwd = $.trim($('#input_pwd').val());
-        var msg = '';
-        if(user == '' || !isEmail(user)){
-            msg += '<li>Please enter a valid email id.</li>';
-        }
-        if(pwd == ''){
-            msg += '<li>Please enter your password.</li>';
-        }
-        if(msg != ''){
-            $('#msg').addClass('text-danger alert-danger alert').html('<ul><li>Please fill all the mandatory fields.</li>'+msg+'</ul>');
-            return false;
-        }else{
-            return true;
-        }
+  <script>
+    $('#btn_login').on('click', function() {
+      var user = $.trim($('#username').val());
+      var pwd = $.trim($('#input_pwd').val());
+      var msg = '';
+      if (user == '' || !isEmail(user)) {
+        msg += '<li>Please enter a valid email id.</li>';
+      }
+      if (pwd == '') {
+        msg += '<li>Please enter your password.</li>';
+      }
+      if (msg != '') {
+        $('#msg').addClass('text-danger alert-danger alert').html('<ul><li>Please fill all the mandatory fields.</li>' + msg + '</ul>');
+        return false;
+      } else {
+        return true;
+      }
     });
-</script>
+  </script>
 
 </body>
 
