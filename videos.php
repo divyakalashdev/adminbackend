@@ -61,7 +61,6 @@ $pagination = new Pagination($pagConfig);
 
 $videos = $db->customQuery($sql);
 
-
 $conc = array(
     'order_by' => 'id ASC',
     'where' => array('parent_id' => 0)
@@ -224,71 +223,75 @@ $explore_videos = $db->readExploreVideos();
 <div class="main_content_iner ">
     <div class="container-fluid p-0 ">
 
-        <!-- Page Heading -->
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Videos</h1>
-        </div>
-        <div class="row">
-            <div class="col-xl-12 col-lg-12">
-                <div class="card shadow mb-4">
-
-                    <!-- Card Header - Dropdown -->
-                    <?php
-                    if (!empty($profile)) {
-                    ?>
-                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <h6 class="m-0 font-weight-bold text-primary"><img src="<?php echo $profile[0]['avatar']; ?>" width="100" /><br />Videos from <?php echo $profile[0]['name']; ?></h6>
-                            <div>
-                                <a class="btn btn-primary btn-sm" href="upload-video.php<?php echo '?pid=' . $profile_id; ?>">Upload New Video</a>
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <div class="white_card card_height_100 mb_30">
+                    <div class="white_card_header">
+                        <div class="box_header m-0">
+                            <div class="main-title">
+                                <h3 class="m-0">Videos</h3>
                             </div>
                         </div>
-                    <?php
-                    } else {
-                    ?>
-                        <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                            <a class="btn btn-primary btn-sm" href="arrange-explore.php">Arr. Exp.</a>
-                            <a class="btn btn-primary btn-sm" href="arrange-videos.php">Arr. Vid.</a>
-                            <a class="btn btn-primary btn-sm" href="upload-video.php">New</a>
-                            <div class="col-xl-3 col-lg-3">
-                                <label>Filter By</label>
-                                <select class="form-select form-control" id="filter_category" name="filter_category">
-                                    <option value="">Select category</option>
-                                    <?php
-                                    if (!empty($categories)) {
-                                        foreach ($categories as $cat) {
-                                            if ($cat['id'] != 2) {
-                                                echo '<option value="' . $cat['id'] . '">' . $cat['category'] . '</option>';
-                                            }
-                                        }
-                                    }
-                                    ?>
-                                </select>
-                                <!--<h6 class="m-0 font-weight-bold text-primary">Videos</h6>-->
-                                <div class="row">
-
-                                </div>
-                                <!--<button class="btn btn-danger btn-xs"  data-toggle="modal" data-target="#newCategoryModal">New Video/Audio</button>-->
+                    </div>
+                    <div class="white_card_body">
+                        <div class="QA_section">
+                            <div class="white_box_tittle list_header">
+                                <?php
+                                if (!empty($profile)) {
+                                ?>
+                                    <h6 class="m-0 font-weight-bold text-primary"><img src="<?php echo $profile[0]['avatar']; ?>" width="100" /><br />Videos from <?php echo $profile[0]['name']; ?></h6>
+                                    <div class="box_right d-flex lms_block">
+                                        <div class="add_button ms-2">
+                                            <a class="btn_1" href="upload-video.php<?php echo '?pid=' . $profile_id; ?>">Upload New Video</a>
+                                        </div>
+                                    </div>
+                                <?php
+                                } else {
+                                ?>
+                                    <h6 class="m-0 font-weight-bold text-primary">Video List</h6>
+                                    <div class="box_right d-flex lms_block">
+                                        <div class="add_button ms-2">
+                                            <a href="arrange-explore.php" data-bs-toggle="modal" data-bs-target="#addcategory" class="btn_1">Arr. Exp.</a>
+                                        </div>
+                                        <div class="add_button ms-2">
+                                            <a href="arrange-videos.php" data-bs-toggle="modal" data-bs-target="#addcategory" class="btn_1">Arr. Vid.</a>
+                                        </div>
+                                        <div class="add_button ms-2">
+                                            <a href="upload-video.php" data-bs-toggle="modal" data-bs-target="#addcategory" class="btn_1">New</a>
+                                        </div>
+                                        <div class="add_button ms-2">
+                                            <select class="form-select form-control" id="filter_category" name="filter_category">
+                                                <option value="">Filter by category</option>
+                                                <?php
+                                                if (!empty($categories)) {
+                                                    foreach ($categories as $cat) {
+                                                        if ($cat['id'] != 2) {
+                                                            echo '<option value="' . $cat['id'] . '">' . $cat['category'] . '</option>';
+                                                        }
+                                                    }
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                <?php
+                                }
+                                ?>
                             </div>
-                        </div>
-                    <?php
-                    }
-                    ?>
-                    <!-- Card Body -->
-                    <div class="card-body">
-                        <div class="user_list">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <div class="QA_table mb_30">
+
+                                <table class="table lms_table_active ">
                                     <thead>
                                         <tr>
-                                            <th>Id</th>
-                                            <th>Add - Explore</th>
-                                            <th style="width:20%;">Title</th>
-                                            <th>Video</th>
-                                            <th>Thumbnail</th>
-                                            <th>Description</th>
-                                            <th>Category</th>
-                                            <th>Upload Date</th>
-                                            <th>Actions</th>
+                                            <!-- <th scope="col">Id</th> -->
+                                            <th scope="col" style="width:20%;">Title</th>
+                                            <th scope="col">Add - Explore</th>
+                                            <th scope="col">Video</th>
+                                            <th scope="col">Thumbnail</th>
+                                            <th scope="col">Description</th>
+                                            <th scope="col">Category</th>
+                                            <th scope="col">Upload Date</th>
+                                            <th scope="col">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -318,15 +321,15 @@ $explore_videos = $db->readExploreVideos();
                                                 }
 
                                                 if (!empty($explore_videos) && in_array($vid['id'], $explore_videos)) {
-                                                    $explore = '<td><button class="btn btn-danger btn-xs" onclick="removeExplore(\'' . $vid['id'] . '\')"><span class="fa fa-trash"></span>Explore</button></td>';
+                                                    $explore = '<td><button class="btn btn-danger btn-xs" onclick="removeExplore(\'' . $vid['id'] . '\')"><span class="fa fa-trash"></span></button></td>';
                                                 } else {
-                                                    $explore = '<td><button class="btn btn-success btn-xs" onclick="addExplore(\'' . $vid['id'] . '\')"><span class="fa fa-plus"></span>Explore</button></td>';
+                                                    $explore = '<td><button class="btn btn-success btn-xs" onclick="addExplore(\'' . $vid['id'] . '\')"><span class="fa fa-plus"></span></button></td>';
                                                 }
 
                                                 echo '<tr>
-                                    <td>' . $vid['id'] . '</td>
+                                    <!--<td>' . $vid['id'] . '</td>-->
+                                    <th scope="row" id="t' . $vid['id'] . '"><a href="#" class="question_content">' . $vid['title'] . '</a></th>
                                     ' . $explore . '
-                                    <td id="t' . $vid['id'] . '">' . $vid['title'] . '</td>
                                     <td id="v' . $vid['id'] . '">' . $mediafile . '</td>
                                     <td id="i' . $vid['id'] . '"><img src="' . $vid['thumbnail'] . '?s=' . $random . '" width="90" /></td>
                                     <td id="desc' . $vid['id'] . '">' . substr($vid['description'], 0, 50) . '</td>
@@ -348,11 +351,14 @@ $explore_videos = $db->readExploreVideos();
 
                                     </tbody>
                                 </table>
-                                <?php echo $pagination->createLinks(); ?>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="col-12">
+                <?php //echo $pagination->createLinks(); 
+                ?>
             </div>
         </div>
     </div>
@@ -435,11 +441,11 @@ $explore_videos = $db->readExploreVideos();
                             <div class="form-group col-xl-6 col-lg-6">
                                 <label class="form-select form-control" id="display_type" name="display_type">Display Type : </label>
                             </div>
-                            <!--<div class="form-group col-xl-6 col-lg-6">
-                                    <select class="form-select form-control" id="subcatselect" name="subcatselect">
-                                        <option value="">Sub category</option>
-                                    </select>
-                                </div>-->
+                            <div class="form-group col-xl-6 col-lg-6">
+                                <select class="form-select form-control" id="subcatselect" name="subcatselect">
+                                    <option value="">Sub category</option>
+                                </select>
+                            </div>
                         <?php
                         } else {
                         ?>
@@ -455,11 +461,11 @@ $explore_videos = $db->readExploreVideos();
                                     ?>
                                 </select>
                             </div>
-                            <!--<div class="form-group col-xl-12 col-lg-12">
-                                    <select class="form-select form-control" id="subcatselect" name="subcatselect">
-                                        <option value="">Sub category</option>
-                                    </select>
-                                </div>-->
+                            <div class="form-group col-xl-12 col-lg-12">
+                                <select class="form-select form-control" id="subcatselect" name="subcatselect">
+                                    <option value="">Sub category</option>
+                                </select>
+                            </div>
                         <?php
                         }
                         ?>
@@ -642,7 +648,7 @@ $explore_videos = $db->readExploreVideos();
                         var livelink = $("#livelink").val();
                         var videotype = $("#videotype").val();
                         var pcid = $("#parentselect").val();
-                        //var scid = $("#subcatselect").val();
+                        var scid = $("#subcatselect").val();
                         var id = $("#edit_video_id").val();
                         var form_data = new FormData();
                         form_data.append("vid", id);
@@ -650,7 +656,7 @@ $explore_videos = $db->readExploreVideos();
                         form_data.append("videotype", videotype);
                         form_data.append("description", $('#description').val());
                         form_data.append("parent_id", pcid);
-                        //form_data.append("sub_id", scid);
+                        form_data.append("sub_id", scid);
                         form_data.append("image", image);
                         form_data.append("livelink", livelink);
                         form_data.append("video", video);

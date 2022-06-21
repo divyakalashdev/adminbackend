@@ -197,7 +197,7 @@ $categories = $db->getRows('categories', $con);
                 <?php
                 if (!empty($profile)) {
                 ?>
-                    <br><img src="<?php echo $profile[0]['avatar']; ?>" width="100" /><br />Videos from <?php echo $profile[0]['name']; ?>
+                    <br><img src="<?php echo $profile[0]['avatar']; ?>" width="100" /><br /><?php echo $profile[0]['name']; ?>
                 <?php
                 }
                 ?>
@@ -225,7 +225,7 @@ $categories = $db->getRows('categories', $con);
 
                             if (!empty($profile)) {
                             ?>
-                                <div class="form-group col-xl-6 col-lg-6">
+                                <div class="mb-3 col-xl-6 col-lg-6">
                                     <select class="form-select form-control" id="parentselect" name="parentselect" required>
                                         <option value="">Select parent category</option>
                                         <?php
@@ -244,18 +244,18 @@ $categories = $db->getRows('categories', $con);
                                         Looks good!
                                     </div>
                                 </div>
-                                <div class="form-group col-xl-6 col-lg-6">
-                                    <label class="form-select form-control" id="display_type" name="display_type">Display Type : </label>
+                                <div class="mb-3 col-xl-6 col-lg-6">
+                                    <label class="form-label" id="display_type" name="display_type">Display Type : </label>
                                 </div>
-                                <!--<div class="form-group col-xl-6 col-lg-6">
+                                <div class="mb-3 col-xl-6 col-lg-6">
                                     <select class="form-select form-control" id="subcatselect" name="subcatselect">
                                         <option value="">Sub category</option>
                                     </select>
-                                </div>-->
+                                </div>
                             <?php
                             } else {
                             ?>
-                                <div class="form-group col-xl-6 col-lg-6">
+                                <div class="mb-3 col-xl-6 col-lg-6">
                                     <select class="form-select form-control" id="parentselect" name="parentselect" required>
                                         <option value="">Select parent category</option>
                                         <?php
@@ -271,20 +271,20 @@ $categories = $db->getRows('categories', $con);
                                         Looks good!
                                     </div>
                                 </div>
-                                <div class="form-group col-xl-6 col-lg-6">
-                                    <label class="form-select form-control" id="display_type" name="display_type">Display Type : </label>
+                                <div class="mb-3 col-xl-6 col-lg-6">
+                                    <label class="form-label" id="display_type" name="display_type">Display Type : </label>
                                 </div>
-                                <!--<div class="form-group col-xl-6 col-lg-6">
+                                <div class="mb-3 col-xl-6 col-lg-6">
                                     <select class="form-select form-control" id="subcatselect" name="subcatselect">
                                         <option value="">Sub category</option>
                                     </select>
-                                </div>-->
+                                </div>
                             <?php
                             }
                             ?>
-                            <div class="form-group col-xl-6 col-lg-6">
+                            <div class="mb-3 col-xl-6 col-lg-6">
                                 <select class="form-select form-control" id="videotype" name="videotype" required>
-                                    <option value="">Video Type</option>
+                                    <option value="">Media Type</option>
                                     <option value="live">Live</option>
                                     <option value="youtube">Youtube</option>
                                     <option value="recorded">Recorded</option>
@@ -294,53 +294,53 @@ $categories = $db->getRows('categories', $con);
                                     Looks good!
                                 </div>
                             </div>
-                            <div class="form-group col-xl-6 col-lg-6">
+                            <div class="mb-3 col-xl-6 col-lg-6">
                                 <input type="text" class="form-control" name="title" id="title" placeholder="Title" required>
                                 <div class="valid-feedback">
                                     Looks good!
                                 </div>
                             </div>
-                            <div class="form-group col-xl-6 col-lg-6">Image
+                            <div class="mb-3 col-xl-6 col-lg-6">Image
                                 <input type='file' class="form-control" name='image' placeholder="Image" accept="image/*" required />
                                 <div class="valid-feedback">
                                     Looks good!
                                 </div>
                             </div>
-                            <div class="form-group col-xl-6 col-lg-6" id="divvideo">Video
+                            <div class="mb-3 col-xl-6 col-lg-6" id="divvideo">Video
                                 <input type='file' class="form-control" name='video' id="video" placeholder="Video" accept="video/*" />
                                 <div class="valid-feedback">
                                     Looks good!
                                 </div>
                             </div>
-                            <div class="form-group col-xl-6 col-lg-6 d-none" id="liveurl">Video URL
+                            <div class="mb-3 col-xl-6 col-lg-6 d-none" id="liveurl">Video URL
                                 <input type="url" class="form-control" name="livelink" id="livelink" placeholder="http://example.com/livevideo/url">
                                 <div class="valid-feedback">
                                     Looks good!
                                 </div>
                             </div>
-                            <div class="form-group col-xl-6 col-lg-6 d-none" id="divaudio">Audio
+                            <div class="mb-3 col-xl-6 col-lg-6 d-none" id="divaudio">Audio
                                 <input type='file' class="form-control" name='audio' placeholder="Audio" accept="audio/wav, audio/aac, audio/mp3" />
                                 <!--<div class="valid-feedback">
                                     Looks good!
                                 </div>-->
                             </div>
-                            <div class="form-group col-xl-6 col-lg-6" id="descriptions">Description
+                            <div class="mb-3" id="descriptions">Description
                                 <textarea class="form-control" name='description' placeholder="Description"></textarea>
                                 <div class="valid-feedback">
                                     Looks good!
                                 </div>
                             </div>
-                            <div class="form-group col-xl-12 col-lg-12" id="tags">Tags
+                            <div class="mb-3" id="tags">Tags
                                 <input type="text" class="form-control" name="tags" id="tags" placeholder="Tags" data-role="tagsinput">
                                 <div class="valid-feedback">
                                     Looks good!
                                 </div>
                             </div>
-                            <div class="form-group col-xl-6 col-lg-6">
+                            <div class="mb-3 col-xl-6 col-lg-6">
                                 <?php
                                 if (!empty($profile)) {
                                 ?>
-                                    <input type="hidden" value="<?php echo $profile['id']; ?>" name="profile_id">
+                                    <input type="hidden" value="<?php echo $profile[0]['id']; ?>" name="profile_id">
                                 <?php
                                 } else {
                                 ?>
@@ -457,8 +457,8 @@ $categories = $db->getRows('categories', $con);
                     //$('#subcatselect').hide();
                     $('#display_type').text("Display Type : " + response.displaytype.toUpperCase());
                 } else {
-                    //$('#subcatselect').show();
-                    //$('#subcatselect').html(response.option);
+                    $('#subcatselect').show();
+                    $('#subcatselect').html(response.option);
                     $('#display_type').text("Display Type : " + response.displaytype.toUpperCase());
                 }
             }
@@ -493,6 +493,7 @@ $categories = $db->getRows('categories', $con);
             $('#divvideo').removeClass('d-none');
         }
     });
+    $('#parentselect').trigger('change');
 </script>
 
 <?php include "footer.php"; ?>
