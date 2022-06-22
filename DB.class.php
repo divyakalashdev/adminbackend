@@ -9,15 +9,15 @@ define("SMS_TEMPLATE_ID", "629fbec6d6fc05795b4cf9d2", false);
 define("SEND_VERIFY_EMAIL_FROM", "verify@divyakalash.com", false);
 class DB
 {
-    private $dbHost     = "localhost";
+    /* private $dbHost     = "localhost";
     private $dbUsername = "root";
     private $dbPassword = "";
-    private $dbName     = "divyakalash_db";
+    private $dbName     = "divyakalash_db"; */
 
-    /* private $dbHost     = "localhost";
+    private $dbHost     = "localhost";
     private $dbUsername = "divyakalash_db";
     private $dbPassword = "@Xtct[V[kBjs";
-    private $dbName     = "divyakalash_db"; */
+    private $dbName     = "divyakalash_db";
 
     public function __construct()
     {

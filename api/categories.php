@@ -9,9 +9,10 @@ include '../DB.class.php';
 $db = new DB;
 try {
     // Get users from database
-    $sql = "SELECT p.id, p.category, p.priority, p.display_type, p.height, s.id as subid, s.category as subcategory/*, videos.id as vid, videos.catid as vcatid, videos.title, videos.video_url, videos.audio_url, videos.thumbnail*/ FROM categories as p LEFT JOIN categories as s ON p.id = s.parent_id /*LEFT JOIN videos ON videos.catid = p.id OR videos.catid = s.id*/ WHERE p.parent_id = 0 AND p.status = 0 ORDER BY p.priority";
+    $sql = "SELECT p.id, p.category, s.thumbnail, p.priority, p.display_type, p.height, s.id as subid, s.category as subcategory FROM categories as p LEFT JOIN categories as s ON p.id = s.parent_id WHERE p.parent_id = 0 AND p.status = 0 ORDER BY p.priority";
     $categories = $db->customQuery($sql);
-    // print_r($categories);exit;
+    /* print_r($categories);
+    exit; */
     $catl = array();
     $catlist = array();
     //$subcatlist = array();
@@ -29,6 +30,7 @@ try {
             $subcat['pid'] = $cat['id'];
             $subcat['subid'] = $cat['subid'];
             $subcat['subcategory'] = $cat['subcategory'];
+            $subcat['thumbnail'] = $cat['thumbnail'];
             array_push($catlist[$cat['id']]['sub_category'], $subcat);
         }
     }

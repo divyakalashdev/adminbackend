@@ -10,16 +10,12 @@ include "header.php";
 
 // Get users from database
 $con = array(
-  'order_by' => 'id ASC',
+  'order_by' => 'priority ASC',
   'where' => array('parent_id' => 0)
 );
 $categories = $db->getRows('categories', $con);
 
-$sccon = array(
-  'order_by' => 'id ASC',
-  'wherenot' => array('parent_id' => 0)
-);
-$sql = "SELECT s.*, p.category as parent_cat, p.id as catid FROM categories p INNER JOIN categories s ON p.id = s.parent_id";
+$sql = "SELECT s.*, p.category as parent_cat, p.id as catid FROM categories p INNER JOIN categories s ON p.id = s.parent_id ORDER BY s.priority";
 $subcategories = $db->customQuery($sql);
 ?>
 <style>
@@ -107,11 +103,11 @@ $subcategories = $db->customQuery($sql);
                         foreach ($subcategories as $sub) {
                           if ($sub['parent_id'] == $cat['id']) {
                             if ($c == 0) {
-                              echo "<br>";
+                              echo '<a href="#" data-toggle="modal" data-target="#arrangeSubCategoryModal" onclick="loadSubCategory(' . $sub['parent_id'] . ')">&nbsp;&nbsp;&nbsp;&nbsp;<i class="ti-exchange-vertical">Arrange</i></a><br>-> ';
                               $c++;
                             }
-                            echo $sub['category'] . "<a onclick=\"changeId('usc', '" . $sub['id'] . "', '" . $sub['category'] . "')\" class=\"badge text-primary\">&nbsp;<span class=\"fa fa-edit\"></span></a>
-                                            <a onclick=\"changeId('dsc', '" . $sub['id'] . "')\" class=\"badge text-primary\">&nbsp;<span class=\"fa fa-trash\"></span></a>";
+                            echo $sub['category'] . "<input type='hidden' id='" . $sub['id'] . "img' value='" . $sub['thumbnail'] . "' /><a onclick=\"changeId('usc', '" . $sub['id'] . "', '" . $sub['category'] . "')\" class=\"badge text-primary\">&nbsp;<span class=\"fa fa-edit\"></span></a>
+                                            <a onclick=\"changeId('dsc', '" . $sub['id'] . "')\" class=\"badge text-primary\">&nbsp;<span class=\"fa fa-trash\"></span></a><br>";
                           }
                         }
                       }
@@ -121,10 +117,10 @@ $subcategories = $db->customQuery($sql);
                                 <td>' . $cat['created_at'] . '</td>
                                 <td>
                                     <input type="hidden" id="hyt' . $cat['id'] . '" value="' . $cat['height'] . '" />
-                                    <button class="btn btn-danger btn-xs" onclick="changeId(\'e\', \'' . $cat['id'] . '\', \'' . $cat['category'] . '\')"><span class="fa fa-edit"></span></button>
+                                    <button class="btn btn-primary btn-xs" onclick="changeId(\'e\', \'' . $cat['id'] . '\', \'' . $cat['category'] . '\')"><span class="fa fa-edit"></span></button>
                                     <button class="btn btn-danger btn-xs" data-toggle="modal" data-target="#deleteCategoryModal" onclick="changeId(\'d\', \'' . $cat['id'] . '\', \'\')"><span class="fa fa-trash"></span></button>
                                     <button class="btn ' . $status_color . ' btn-xs" onclick="disableCategory(\'' . $cat['id'] . '\', \'' . $cat['status'] . '\')"><span class="fa ' . $status_icon . '"></span></button>
-                                    <button class="btn btn-danger btn-xs" onclick="changeId(\'sc\', \'' . $cat['id'] . '\')" data-toggle="modal" data-target="#subCategoryModal"><span class="fa fa-plus">&nbsp;Sub Cat</span></button>
+                                    <button class="btn btn-success btn-xs" onclick="changeId(\'sc\', \'' . $cat['id'] . '\')" data-toggle="modal" data-target="#subCategoryModal"><span class="fa fa-plus">&nbsp;Sub Cat</span></button>
                                 </td>
                               </tr>';
                     }
@@ -343,6 +339,37 @@ $subcategories = $db->customQuery($sql);
       </div>
     </div>
 
+    <!-- Arrange Sub Category Modal -->
+    <div class="modal fade" id="arrangeSubCategoryModal" tabindex="-1" role="dialog" aria-labelledby="sortCategoryLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="sortCategoryLabel">Arrange sub category order</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="alert alert-dismissible fade show d-none" role="alert">
+              <button type="button" class="close" id="arrange_parent_cat_alert" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+
+            <ul id="subcat_sortable">
+
+            </ul>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <div class="spinner-border text-secondary arrange-pcat-spinner d-none" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- New Sub Category Modal -->
     <div class="modal fade" id="subCategoryModal" tabindex="-1" role="dialog" aria-labelledby="subCategoryLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -359,11 +386,19 @@ $subcategories = $db->customQuery($sql);
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <form class="row g-3 needs-validation-addsubcat" id="new_sub_category_form" novalidate method="post">
+            <form class="row g-3 needs-validation-addsubcat" id="new_sub_category_form" novalidate method="post" enctype="multipart/form-data">
               <input type="hidden" value="" id="parent_cat_id" name="parent_cat_id" />
               <div class="col-md-12">
-                <label for="parentCatName" class="form-label">Sub category name</label>
+                <label for="parentCatName" class="form-label">Sub category name *</label>
                 <input type="text" class="form-control" id="subCatName" value="" name="subcategory_name" required>
+                <div class="valid-feedback">
+                  Looks good!
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <label for="newimage" class="form-label">Thumbnail *</label>
+                <input type="file" class="form-control" id="newimage" name="newimage" required />
                 <div class="valid-feedback">
                   Looks good!
                 </div>
@@ -404,6 +439,15 @@ $subcategories = $db->customQuery($sql);
               <div class="col-md-12">
                 <label for="parentCatName" class="form-label">Sub category name</label>
                 <input type="text" class="form-control" id="updatesubcategory_name" value="" name="updatesubcategory_name" required>
+                <div class="valid-feedback">
+                  Looks good!
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <label for="newimage" class="form-label">Thumbnail *</label>
+                <input type="file" class="form-control" id="updateimage" name="updateimage" required />
+                <img src="" id="update_sub_cat_img" class="mt-2" width="20%" />
                 <div class="valid-feedback">
                   Looks good!
                 </div>
@@ -622,17 +666,22 @@ $subcategories = $db->customQuery($sql);
             event.stopPropagation()
           } else {
             event.preventDefault();
-            var values = $('#new_sub_category_form').serializeArray();
-            values.push({
-              name: "submit_sub_category",
-              value: 'add'
-            });
+            var form_data = new FormData();
+            var image = $("#newimage").prop("files")[0];
+            form_data.append("parent_cat_id", $('#parent_cat_id').val());
+            form_data.append("subcategory_name", $("#subCatName").val());
+            form_data.append("newimage", image);
+            form_data.append("submit_sub_category", 'add');
             $('.new-subcat-submit').addClass('d-none');
             $('.new-scat-spinner').removeClass('d-none');
             $.ajax({
               url: "ajax.php",
               type: "post",
-              data: values,
+              data: form_data,
+              dataType: 'script',
+              cache: false,
+              contentType: false,
+              processData: false,
               success: function(response) {
                 console.log(response);
                 if (response == "OK") {
@@ -670,17 +719,22 @@ $subcategories = $db->customQuery($sql);
             event.stopPropagation()
           } else {
             event.preventDefault();
-            var values = $('#update_sub_category_form').serializeArray();
-            values.push({
-              name: "update_sub_category",
-              value: 'update'
-            });
+            var form_data = new FormData();
+            var image = $("#updateimage").prop("files")[0];
+            form_data.append("updatesub_cat_id", $('#updatesub_cat_id').val());
+            form_data.append("updatesubcategory_name", $("#updatesubcategory_name").val());
+            form_data.append("newimage", image);
+            form_data.append("update_sub_category", 'update');
             $('.update-subcat-submit').addClass('d-none');
             $('.update-scat-spinner').removeClass('d-none');
             $.ajax({
               url: "ajax.php",
               type: "post",
-              data: values,
+              data: form_data,
+              dataType: 'script',
+              cache: false,
+              contentType: false,
+              processData: false,
               success: function(response) {
                 console.log(response);
                 if (response == "OK") {
@@ -751,7 +805,6 @@ $subcategories = $db->customQuery($sql);
       })
   })();
 
-
   function changeId(t, id, name) {
     if (t == 'd') {
       $('#delete_cat').val(id);
@@ -764,6 +817,7 @@ $subcategories = $db->customQuery($sql);
     } else if (t == 'sc') {
       $('#parent_cat_id').val(id);
     } else if (t == 'usc') {
+      $('#update_sub_cat_img').attr('src', $('#' + id + "img").val());
       $('#updatesub_cat_id').val(id);
       $('#updatesubcategory_name').val(name);
       $('#updatesubCategoryModal').modal('show');
@@ -829,19 +883,71 @@ $subcategories = $db->customQuery($sql);
     });
   }
 
+  function loadSubCategory(parent_id) {
+    var form_data = new FormData();
+    form_data.append("load_sub_cat", 'load');
+    form_data.append("parentid", parent_id);
+    $.ajax({
+      url: "ajax.php",
+      dataType: 'script',
+      cache: false,
+      contentType: false,
+      processData: false,
+      data: form_data,
+      type: 'post',
+      success: function(response) {
+        //console.log(response);
+        if (response != "FAILED") {
+          $('#subcat_sortable').html(response);
+        } else {
+          alert("Failed to load sub categories! Please try later.");
+        }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+        console.log(textStatus, errorThrown);
+      }
+    });
+  }
+
   $(document).ready(function() {
-    $('ul').sortable({
+    $('#subcat_sortable').sortable({
       axis: 'y',
       stop: function(event, ui) {
         var data = $(this).sortable('serialize') + "&arrange_category=arrange";
-        console.log(data);
+        //alert(data);
         $('.arrange-pcat-spinner').removeClass('d-none');
         $.ajax({
           url: "ajax.php",
           type: "post",
           data: data,
           success: function(response) {
-            console.log(response);
+            //console.log(response);
+            if (response == "OK") {
+              $('#arrange_parent_cat_alert').removeClass('d-none').addClass('alert-success').text("Sub Category order saved.");
+              location.reload();
+            } else {
+              $('#arrange_parent_cat_alert').removeClass('d-none').addClass('alert-danger').text("Failed to save category order! Please try later.");
+            }
+            $('.arrange-pcat-spinner').addClass('d-none');
+          },
+          error: function(jqXHR, textStatus, errorThrown) {
+            console.log(textStatus, errorThrown);
+          }
+        });
+      }
+    });
+    $('#sortable').sortable({
+      axis: 'y',
+      stop: function(event, ui) {
+        var data = $(this).sortable('serialize') + "&arrange_category=arrange";
+        //alert(data);
+        $('.arrange-pcat-spinner').removeClass('d-none');
+        $.ajax({
+          url: "ajax.php",
+          type: "post",
+          data: data,
+          success: function(response) {
+            //alert(response);
             if (response == "OK") {
               $('#arrange_parent_cat_alert').removeClass('d-none').addClass('alert-success').text("Category order saved.");
               location.reload();
