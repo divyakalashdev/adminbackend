@@ -585,7 +585,7 @@ if (isset($_POST['submit_parent_category']) && $_POST['submit_parent_category'] 
     if (!empty($subcat)) {
         $i = 1;
         foreach ($subcat as $cat) {
-            $str .= '<li id="item-' . $cat['id'] . '" dir="rtl">' . $cat['id'] . ' -' . $cat['category'] . '<i class="tab fa fa-arrows-alt"></i></li>';
+            $str .= '<li id="item-' . $cat['id'] . '" dir="rtl">'. $cat['category'] . '<i class="tab fa fa-arrows-alt"></i></li>';
             $i++;
         }
         echo $str;
