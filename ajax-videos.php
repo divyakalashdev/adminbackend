@@ -4,9 +4,9 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 
-@ini_set('upload_max_size', '4000M');
-@ini_set('post_max_size', '4000M');
-@ini_set('max_execution_time', '30000');
+@ini_set('upload_max_size', '5000M');
+@ini_set('post_max_size', '5000M');
+@ini_set('max_execution_time', '50000');
 
 include 'DB.class.php';
 $db = new DB();
@@ -76,6 +76,7 @@ if (isset($_POST['submit_new_video'])) {
                     $errorMsg = "File too large. File must be less than 5MB.";
                     $imgsuccess = false;
                     $type = "failed";
+                    exit;
                 } else {
                     // Upload
                     if (move_uploaded_file($_FILES['image']['tmp_name'], $target_image_file)) {
@@ -97,7 +98,7 @@ if (isset($_POST['submit_new_video'])) {
         } else {
             if (((isset($_FILES['video']['name']) && $_FILES['video']['name'] != '') ||
                 (isset($_FILES['audio']['name']) && $_FILES['audio']['name'] != ''))) {
-                $maxsize = 3221225472; // 500MB
+                $maxsize = 500242880; // 5000MB
                 if (!empty($_FILES['video']['name'])) {
                     $name = $_FILES['video']['name'];
                     $target_dir = "videos/";
@@ -111,7 +112,7 @@ if (isset($_POST['submit_new_video'])) {
 
                         // Check file size
                         if (($_FILES['video']['size'] >= $maxsize) || ($_FILES["video"]["size"] == 0)) {
-                            $errorMsg = "File too large. File must be less than 500MB.";
+                            $errorMsg = "File too large. File must be less than 5000MB.";
                             $vidsuccess = false;
                         } else {
                             // Upload
@@ -137,7 +138,7 @@ if (isset($_POST['submit_new_video'])) {
 
                         // Check file size
                         if (($_FILES['audio']['size'] >= $maxsize) || ($_FILES["audio"]["size"] == 0)) {
-                            $errorMsg = "File too large. File must be less than 500MB.";
+                            $errorMsg = "File too large. File must be less than 5000MB.";
                             $vidsuccess = false;
                             $type = "failed";
                         } else {

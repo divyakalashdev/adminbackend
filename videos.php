@@ -265,12 +265,21 @@ $explore_videos = $db->readExploreVideos();
                                                 <?php
                                                 if (!empty($categories)) {
                                                     foreach ($categories as $cat) {
+                                                        $selected = '';
                                                         if ($cat['id'] != 2) {
-                                                            echo '<option value="' . $cat['id'] . '">' . $cat['category'] . '</option>';
+                                                            if ($parent_category == $cat['id']) {
+                                                                $selected = 'selected';
+                                                            }
+                                                            echo '<option value="' . $cat['id'] . '" ' . $selected . '>' . $cat['category'] . '</option>';
                                                         }
                                                     }
                                                 }
                                                 ?>
+                                            </select>
+                                        </div>
+                                        <div class="add_button ms-2">
+                                            <select class="form-select form-control" id="filter_subcategory" name="filter_subcategory">
+                                                <option value="">Filter by sub category</option>
                                             </select>
                                         </div>
                                     </div>
@@ -908,7 +917,36 @@ $explore_videos = $db->readExploreVideos();
         getSubCategory(valueSelected);
     });
 
-    async function getSubCategory(valueSelected) {
+    $('#filter_category').on('change', function() {
+        var formdata = new FormData();
+        formdata.append('get', 'subcat');
+        formdata.append('parentid', $('#filter_category').val());
+        $.ajax({
+            url: "ajax.php",
+            type: "post",
+            data: formdata,
+            cache: false,
+            contentType: false,
+            dataType: "json",
+            processData: false,
+            success: function(response) {
+                if (response.length == '0') {
+                    window.location = './videos.php?c=' + $('#filter_category').val();
+                } else if (response.length != '0') {
+                    $('#filter_subcategory').html(response.option);
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(textStatus, errorThrown);
+            }
+        });
+    });
+
+    $('#filter_subcategory').on('change', function() {
+        window.location = './videos.php?c=' + $('#filter_subcategory').val();
+    });
+
+    async function getSubCategory(valueSelected, replaceidhtml) {
         var formdata = new FormData();
         formdata.append('get', 'subcat');
         formdata.append('parentid', valueSelected);
@@ -1023,9 +1061,6 @@ $explore_videos = $db->readExploreVideos();
         });
     }
 
-    $('#filter_category').on('change', function(e) {
-        window.location = './videos.php?c=' + $('#filter_category').val();
-    });
 
     $('#parent_cat_alert').on('click', function() {
         location.reload();

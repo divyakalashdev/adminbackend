@@ -3,9 +3,9 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-@ini_set('upload_max_size', '4000M');
-@ini_set('post_max_size', '4000M');
-@ini_set('max_execution_time', '30000');
+@ini_set('upload_max_size', '5000M');
+@ini_set('post_max_size', '5000M');
+@ini_set('max_execution_time', '50000');
 
 include 'DB.class.php';
 $db = new DB();
@@ -209,7 +209,7 @@ if (isset($_POST['submit_parent_category']) && $_POST['submit_parent_category'] 
     $data = array();
     $data['title'] = $title;
     $data['catid'] = $parentid;
-    $maxsize = 3221225472; // 500MB
+    $maxsize = 3221225472; // 3000MB
     if ((isset($_FILES['video']['name']) && $_FILES['video']['name'] != '')) {
         $name = $_FILES['video']['name'];
         $target_dir = "videos/";
@@ -223,7 +223,7 @@ if (isset($_POST['submit_parent_category']) && $_POST['submit_parent_category'] 
 
             // Check file size
             if (($_FILES['video']['size'] >= $maxsize) || ($_FILES["video"]["size"] == 0)) {
-                $errorMsg = "File too large. File must be less than 500MB.";
+                $errorMsg = "File too large. File must be less than 3000MB.";
                 $vidsuccess = false;
             } else {
                 // Upload
@@ -250,7 +250,7 @@ if (isset($_POST['submit_parent_category']) && $_POST['submit_parent_category'] 
 
             // Check file size
             if (($_FILES['audio']['size'] >= $maxsize) || ($_FILES["audio"]["size"] == 0)) {
-                $errorMsg = "File too large. File must be less than 500MB.";
+                $errorMsg = "File too large. File must be less than 3000MB.";
                 $vidsuccess = false;
             } else {
                 // Upload
@@ -337,7 +337,7 @@ if (isset($_POST['submit_parent_category']) && $_POST['submit_parent_category'] 
             $data['video_url'] = $videolink;
         }
     } else {
-        $maxsize = 500242880; // 500MB
+        $maxsize = 500242880; // 5000MB
         if ((isset($_FILES['video']['name']) && $_FILES['video']['name'] != '')) {
             $name = $_FILES['video']['name'];
             $target_dir = "videos/";
@@ -351,7 +351,7 @@ if (isset($_POST['submit_parent_category']) && $_POST['submit_parent_category'] 
 
                 // Check file size
                 if (($_FILES['video']['size'] >= $maxsize) || ($_FILES["video"]["size"] == 0)) {
-                    $errorMsg = "File too large. File must be less than 500MB.";
+                    $errorMsg = "File too large. File must be less than 5000MB.";
                     $vidsuccess = false;
                 } else {
                     // Upload
@@ -382,7 +382,7 @@ if (isset($_POST['submit_parent_category']) && $_POST['submit_parent_category'] 
 
                 // Check file size
                 if (($_FILES['audio']['size'] >= $maxsize) || ($_FILES["audio"]["size"] == 0)) {
-                    $errorMsg = "File too large. File must be less than 500MB.";
+                    $errorMsg = "File too large. File must be less than 5000MB.";
                     $vidsuccess = false;
                 } else {
                     // Upload
@@ -461,8 +461,6 @@ if (isset($_POST['submit_parent_category']) && $_POST['submit_parent_category'] 
 /* ============================== Video Operations Ends here ==============================*/
 /* ============================== Sub Cagtegory Operations Ends here ==============================*/ else if (isset($_POST['get']) && $_POST['get'] == "subcat") {
     $parentid = trim(strip_tags($_POST['parentid']));
-    //$con['id'] = $parentid;
-
     $conditions['where'] = array('parent_id' => $parentid);
 
     $con['where'] = array('id' => $parentid);
@@ -470,23 +468,25 @@ if (isset($_POST['submit_parent_category']) && $_POST['submit_parent_category'] 
     $parent_category = $db->getRows('categories', $con);
 
     $categories = $db->getRows('categories', $conditions);
-
-    //[id] => 1 [title] => 1st Test Video [video_url] => videos/1648816157.mp4 [thumbnail] => video_thumbnail/1648816157.png [created_at] => 2022-04-01 12:29:17 [updated_at] => 2022-04-01 12:29:17
     $subcat = '<option value="">Sub category</option>';
     if ($categories != null) {
         foreach ($categories as $cat) {
             $subcat .= '<option value="' . $cat['id'] . '">' . $cat['category'] . '</option>';
         }
+        $length = count($categories);
+    } else {
+        $length = 0;
     }
     if ($parent_category['display_type'] == "profile") {
-        echo json_encode(array("displaytype" => $parent_category['display_type']));
+        echo json_encode(array("displaytype" => $parent_category['display_type'], 'length' => $length));
     } else {
-        echo json_encode(array("option" => $subcat, "displaytype" => $parent_category['display_type']));
+        echo json_encode(array("option" => $subcat, "displaytype" => $parent_category['display_type'], 'length' => $length));
     }
 } else if (isset($_POST['submit_sub_category']) && $_POST['submit_sub_category'] == "add") {
     $catname = trim(strip_tags($_POST['subcategory_name']));
     $parentid = trim(strip_tags($_POST['parent_cat_id']));
-    $data = array("parent_id" => $parentid, "category" => $catname, 'created_at' => date("Y-m-d H:i:s"), 'updated_at' => date("Y-m-d H:i:s"));
+    $description = trim(strip_tags($_POST['description']));
+    $data = array("parent_id" => $parentid, "description" => $description, "category" => $catname, 'created_at' => date("Y-m-d H:i:s"), 'updated_at' => date("Y-m-d H:i:s"));
     if ((isset($_FILES['newimage']['name']) && $_FILES['newimage']['name'] != '')) {
         $maxsize = 5242880; // 5MB
         $name = $_FILES['newimage']['name'];
@@ -518,7 +518,8 @@ if (isset($_POST['submit_parent_category']) && $_POST['submit_parent_category'] 
 } else if (isset($_POST['update_sub_category']) && $_POST['update_sub_category'] == "update") {
     $catid = trim(strip_tags($_POST['updatesub_cat_id']));
     $catname = trim(strip_tags($_POST['updatesubcategory_name']));
-    $data = array("category" => $catname, 'updated_at' => date("Y-m-d H:i:s"));
+    $description = trim(strip_tags($_POST['description']));
+    $data = array("category" => $catname, "description" => $description, 'updated_at' => date("Y-m-d H:i:s"));
     $con['id'] = $catid;
 
     $conditions['where'] = array('id' => $catid);
@@ -548,8 +549,6 @@ if (isset($_POST['submit_parent_category']) && $_POST['submit_parent_category'] 
         } else {
             echo "Invalid file extension.";
         }
-    } else {
-        echo "FAILED.";
     }
 
     if (!empty($subcat) && $db->update('categories', $data, $con)) {
@@ -585,7 +584,7 @@ if (isset($_POST['submit_parent_category']) && $_POST['submit_parent_category'] 
     if (!empty($subcat)) {
         $i = 1;
         foreach ($subcat as $cat) {
-            $str .= '<li id="item-' . $cat['id'] . '" dir="rtl">'. $cat['category'] . '<i class="tab fa fa-arrows-alt"></i></li>';
+            $str .= '<li id="item-' . $cat['id'] . '" dir="rtl">' . $cat['category'] . '<i class="tab fa fa-arrows-alt"></i></li>';
             $i++;
         }
         echo $str;

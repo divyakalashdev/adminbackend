@@ -103,10 +103,10 @@ $subcategories = $db->customQuery($sql);
                         foreach ($subcategories as $sub) {
                           if ($sub['parent_id'] == $cat['id']) {
                             if ($c == 0) {
-                              echo '<a href="#" data-toggle="modal" data-target="#arrangeSubCategoryModal" onclick="loadSubCategory(' . $sub['parent_id'] . ')">&nbsp;&nbsp;&nbsp;&nbsp;<i class="ti-exchange-vertical">Arrange</i></a><br>-> ';
+                              echo '<a href="#" data-toggle="modal" data-target="#arrangeSubCategoryModal" onclick="loadSubCategory(' . $sub['parent_id'] . ')">&nbsp;&nbsp;&nbsp;&nbsp;<i class="ti-exchange-vertical">Arrange</i></a><br>->';
                               $c++;
                             }
-                            echo $sub['category'] . "<input type='hidden' id='" . $sub['id'] . "img' value='" . $sub['thumbnail'] . "' /><a onclick=\"changeId('usc', '" . $sub['id'] . "', '" . $sub['category'] . "')\" class=\"badge text-primary\">&nbsp;<span class=\"fa fa-edit\"></span></a>
+                            echo $sub['category'] . " <input type='hidden' id='desc" . $sub['id'] . "' value='" . $sub['description'] . "' /><input type='hidden' id='" . $sub['id'] . "img' value='" . $sub['thumbnail'] . "' /><a onclick=\"changeId('usc', '" . $sub['id'] . "', '" . $sub['category'] . "')\" class=\"badge text-primary\">&nbsp;<span class=\"fa fa-edit\"></span></a>
                                             <a onclick=\"changeId('dsc', '" . $sub['id'] . "')\" class=\"badge text-primary\">&nbsp;<span class=\"fa fa-trash\"></span></a><br>";
                           }
                         }
@@ -397,6 +397,11 @@ $subcategories = $db->customQuery($sql);
               </div>
 
               <div class="col-md-12">
+                <label for="description" class="form-label">Description</label>
+                <textarea type="text" class="form-control" id="description" value="" name="description"></textarea>
+              </div>
+
+              <div class="col-md-12">
                 <label for="newimage" class="form-label">Thumbnail *</label>
                 <input type="file" class="form-control" id="newimage" name="newimage" required />
                 <div class="valid-feedback">
@@ -445,8 +450,13 @@ $subcategories = $db->customQuery($sql);
               </div>
 
               <div class="col-md-12">
+                <label for="update_description" class="form-label">Description</label>
+                <textarea type="text" class="form-control" id="update_description" value="" name="update_description"></textarea>
+              </div>
+
+              <div class="col-md-12">
                 <label for="newimage" class="form-label">Thumbnail *</label>
-                <input type="file" class="form-control" id="updateimage" name="updateimage" required />
+                <input type="file" class="form-control" id="updateimage" name="updateimage" />
                 <img src="" id="update_sub_cat_img" class="mt-2" width="20%" />
                 <div class="valid-feedback">
                   Looks good!
@@ -670,6 +680,7 @@ $subcategories = $db->customQuery($sql);
             var image = $("#newimage").prop("files")[0];
             form_data.append("parent_cat_id", $('#parent_cat_id').val());
             form_data.append("subcategory_name", $("#subCatName").val());
+            form_data.append("description", $("#description").val());
             form_data.append("newimage", image);
             form_data.append("submit_sub_category", 'add');
             $('.new-subcat-submit').addClass('d-none');
@@ -723,6 +734,7 @@ $subcategories = $db->customQuery($sql);
             var image = $("#updateimage").prop("files")[0];
             form_data.append("updatesub_cat_id", $('#updatesub_cat_id').val());
             form_data.append("updatesubcategory_name", $("#updatesubcategory_name").val());
+            form_data.append("description", $("#update_description").val());
             form_data.append("newimage", image);
             form_data.append("update_sub_category", 'update');
             $('.update-subcat-submit').addClass('d-none');
@@ -820,6 +832,7 @@ $subcategories = $db->customQuery($sql);
       $('#update_sub_cat_img').attr('src', $('#' + id + "img").val());
       $('#updatesub_cat_id').val(id);
       $('#updatesubcategory_name').val(name);
+      $('#update_description').val($('#desc' + id).val());
       $('#updatesubCategoryModal').modal('show');
     } else if (t == 'dsc') {
       $('#delete_subcat').val(id);
