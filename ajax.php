@@ -487,8 +487,10 @@ if (isset($_POST['submit_parent_category']) && $_POST['submit_parent_category'] 
     $parentid = trim(strip_tags($_POST['parent_cat_id']));
     $description = trim(strip_tags($_POST['description']));
     $data = array("parent_id" => $parentid, "description" => $description, "category" => $catname, 'created_at' => date("Y-m-d H:i:s"), 'updated_at' => date("Y-m-d H:i:s"));
+
+    $maxsize = 5242880; // 5MB
+    $insertid = 0;
     if ((isset($_FILES['newimage']['name']) && $_FILES['newimage']['name'] != '')) {
-        $maxsize = 5242880; // 5MB
         $name = $_FILES['newimage']['name'];
         $target_image_dir = "category/subcats/";
         $extension = strtolower(pathinfo($_FILES["newimage"]["name"], PATHINFO_EXTENSION));
@@ -502,18 +504,45 @@ if (isset($_POST['submit_parent_category']) && $_POST['submit_parent_category'] 
             } else {
                 if (move_uploaded_file($_FILES['newimage']['tmp_name'], $target_image_file)) {
                     $data['thumbnail'] = $target_image_file;
-                    if ($db->insert('categories', $data)) {
-                        echo "OK";
+                    $insertid = $db->insert('categories', $data);
+                    if ($insertid) {
+                        $check = "OK";
                     } else {
-                        echo "FAILED TO SAVE";
+                        $check = "FAILED TO SAVE";
                     }
                 }
             }
         } else {
-            echo "Invalid file extension.";
+            $check = "Invalid file extension.";
         }
-    } else {
-        echo "FAILED.";
+    }
+
+    if (isset($_FILES['posters']) && count($_FILES['posters']) > 0 && $insertid > 0) {
+        for ($i = 0; $i < count($_FILES['posters']); $i++) {
+            $target_image_dir = "category/subcats/posters/";
+            @$extension = strtolower(pathinfo($_FILES["posters"]["name"][$i], PATHINFO_EXTENSION));
+            $target_image_file = $target_image_dir . time() . $i . '.' . $extension;
+            // Valid file extensions
+            $extensions_arr = array("jpg", "jpeg", "png");
+
+            if (in_array($extension, $extensions_arr)) {
+                if (($_FILES['posters']['size'][$i] <= $maxsize) || ($_FILES["posters"]["size"][$i] != 0)) {
+                    if (move_uploaded_file($_FILES['posters']['tmp_name'][$i], $target_image_file)) {
+                        $data = array('cat_id' => $insertid, 'created_at' => date("Y-m-d H:i:s"), 'updated_at' => date("Y-m-d H:i:s"));
+                        $data['poster'] = $target_image_file;
+
+                        if ($db->insert('category_posters', $data)) {
+                            $check = "OK";
+                        } else {
+                            $check = "FAILED TO SAVE POSTERS";
+                        }
+                    }
+                }
+            }/*  else {
+                echo "Invalid file extension.";
+            } */
+        }
+        echo $check;
     }
 } else if (isset($_POST['update_sub_category']) && $_POST['update_sub_category'] == "update") {
     $catid = trim(strip_tags($_POST['updatesub_cat_id']));

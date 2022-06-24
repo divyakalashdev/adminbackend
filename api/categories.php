@@ -9,7 +9,7 @@ include '../DB.class.php';
 $db = new DB;
 try {
     // Get users from database
-    $sql = "SELECT p.id, p.category, s.thumbnail, p.priority, p.display_type, p.height, s.id as subid, s.category as subcategory FROM categories as p LEFT JOIN categories as s ON p.id = s.parent_id WHERE p.parent_id = 0 AND p.status = 0 ORDER BY p.priority";
+    $sql = "SELECT p.id, p.category, s.thumbnail, p.priority, p.display_type, p.height, s.id as subid, s.category as subcategory, s.description FROM categories as p LEFT JOIN categories as s ON p.id = s.parent_id WHERE p.parent_id = 0 AND p.status = 0 ORDER BY p.priority";
     $categories = $db->customQuery($sql);
     /* print_r($categories);
     exit; */
@@ -31,6 +31,7 @@ try {
             $subcat['subid'] = $cat['subid'];
             $subcat['subcategory'] = $cat['subcategory'];
             $subcat['thumbnail'] = $cat['thumbnail'];
+            $subcat['description'] = !empty($cat['description']) ? $cat['description'] : "";
             array_push($catlist[$cat['id']]['sub_category'], $subcat);
         }
     }

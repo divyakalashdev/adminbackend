@@ -120,7 +120,7 @@ $subcategories = $db->customQuery($sql);
                                     <button class="btn btn-primary btn-xs" onclick="changeId(\'e\', \'' . $cat['id'] . '\', \'' . $cat['category'] . '\')"><span class="fa fa-edit"></span></button>
                                     <button class="btn btn-danger btn-xs" data-toggle="modal" data-target="#deleteCategoryModal" onclick="changeId(\'d\', \'' . $cat['id'] . '\', \'\')"><span class="fa fa-trash"></span></button>
                                     <button class="btn ' . $status_color . ' btn-xs" onclick="disableCategory(\'' . $cat['id'] . '\', \'' . $cat['status'] . '\')"><span class="fa ' . $status_icon . '"></span></button>
-                                    <button class="btn btn-success btn-xs" onclick="changeId(\'sc\', \'' . $cat['id'] . '\')" data-toggle="modal" data-target="#subCategoryModal"><span class="fa fa-plus">&nbsp;Sub Cat</span></button>
+                                    <a class="btn btn-success btn-xs" href="sub-cat.php?t=n&pid=' . $cat['id'] . '" ><span class="fa fa-plus">&nbsp;Sub Cat</span></a> <!--onclick="changeId(\'sc\', \'' . $cat['id'] . '\')" data-toggle="modal" data-target="#subCategoryModal" -->
                                 </td>
                               </tr>';
                     }
