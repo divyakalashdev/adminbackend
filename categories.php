@@ -106,7 +106,7 @@ $subcategories = $db->customQuery($sql);
                               echo '<a href="#" data-toggle="modal" data-target="#arrangeSubCategoryModal" onclick="loadSubCategory(' . $sub['parent_id'] . ')">&nbsp;&nbsp;&nbsp;&nbsp;<i class="ti-exchange-vertical">Arrange</i></a><br>->';
                               $c++;
                             }
-                            echo $sub['category'] . " <input type='hidden' id='desc" . $sub['id'] . "' value='" . $sub['description'] . "' /><input type='hidden' id='" . $sub['id'] . "img' value='" . $sub['thumbnail'] . "' /><a onclick=\"changeId('usc', '" . $sub['id'] . "', '" . $sub['category'] . "')\" class=\"badge text-primary\">&nbsp;<span class=\"fa fa-edit\"></span></a>
+                            echo $sub['category'] . " <input type='hidden' id='desc" . $sub['id'] . "' value='" . $sub['description'] . "' /><input type='hidden' id='" . $sub['id'] . "img' value='" . $sub['thumbnail'] . "' /><a href='sub-cat.php?t=e&pid=" . trim($sub['id']) . "' class=\"badge text-primary\">&nbsp;<span class=\"fa fa-edit\"></span></a>
                                             <a onclick=\"changeId('dsc', '" . $sub['id'] . "')\" class=\"badge text-primary\">&nbsp;<span class=\"fa fa-trash\"></span></a><br>";
                           }
                         }

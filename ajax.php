@@ -36,16 +36,60 @@ if (isset($_POST['submit_parent_category']) && $_POST['submit_parent_category'] 
     }
 } else if (isset($_POST['delete_parent_category']) && $_POST['delete_parent_category'] == "delete") {
     $catid = trim(strip_tags($_POST['cat_id']));
+    $pvarr = array();
+    $subcats = $db->getRows('categories', array('where' => array('parent_id' => $catid)));
 
-    $consubcat['parent_id'] = $catid;
-    $db->delete('categories', $consubcat);
+    $parentcatsvid = $db->getRows('categories', array('where' => array('id' => $catid)));
+    if (!empty($parentcatsvid)) {
+        foreach ($parentcatsvid as $pv) {
+            array_push($pvarr, $pv['id']);
+        }
+    }
 
-    $profilecon['where'] = array('profile_type' => $catid);
-    $profile = $db->getRows('profiles', $profilecon);
+    $subcatsvid = $db->getRows('categories', array('where' => array('parent_id' => $catid)));
+    if (!empty($subcatsvid)) {
+        foreach ($subcatsvid as $sv) {
+            array_push($pvarr, $sv['id']);
+        }
+    }
+    $pvarr = implode(',', $pvarr);
+
+    if (!empty($subcats)) {
+        $subarr = array();
+        foreach ($subcats as $s) {
+            array_push($subarr, $s['id']);
+            if (!empty($s['thumbnail']) && file_exists("./" . $s['thumbnail'])) {
+                unlink("./" . $s['thumbnail']);
+            }
+        }
+        $delpostersid = implode(',', $subarr);
+        $posters = $db->customQuery("SELECT * FROM category_posters WHERE cat_id IN($delpostersid)");
+        if (!empty($posters)) {
+            $posterarr = array();
+            foreach ($posters as $p) {
+                array_push($posterarr, $s['id']);
+                if (!empty($p['poster']) && file_exists("./" . $p['poster'])) {
+                    unlink("./" . $p['poster']);
+                }
+            }
+            $posterarr = implode(',', $posterarr);
+            $db->customDelete("DELETE FROM category_posters WHERE ID IN($posterarr)");
+        }
+        $subarr = implode(',', $subarr);
+        $db->customDelete("DELETE FROM categories WHERE ID IN($subarr)");
+    }
+
+    $profile = $db->customQuery("SELECT * FROM profiles WHERE profile_type IN($pvarr)");
     if (!empty($profile)) {
         $profile_ids = array();
         foreach ($profile as $p) {
             array_push($profile_ids, $p['id']);
+            if (!empty($po['avatar']) && file_exists("./" . $po['avatar'])) {
+                unlink("./" . $po['avatar']);
+            }
+            if (!empty($po['poster']) && file_exists("./" . $po['poster'])) {
+                unlink("./" . $po['poster']);
+            }
         }
 
         if (count($profile_ids) > 0) {
@@ -64,20 +108,13 @@ if (isset($_POST['submit_parent_category']) && $_POST['submit_parent_category'] 
             $db->customDelete("DELETE FROM tags WHERE profile_id IN ($profile_ids)");
         }
 
-        foreach ($profile as $p) {
-            if (!empty($p['avatar']) && file_exists("./" . $p['avatar'])) {
-                unlink("./" . $p['avatar']);
-            }
-            if (!empty($p['poster']) && file_exists("./" . $p['poster'])) {
-                unlink("./" . $p['poster']);
-            }
-        }
         $profilecondel['profile_type'] = $catid;
         $db->delete('profiles', $profilecondel);
     }
 
-    $videoscon['where'] = array('catid' => $catid);
-    $videos = $db->getRows('videos', $videoscon);
+
+    $videos = $db->customQuery("SELECT * FROM videos WHERE catid in ($pvarr)");
+
     $vid = array();
     if (!empty($videos)) {
         $explore_videos = $db->readExploreVideos();
@@ -545,8 +582,8 @@ if (isset($_POST['submit_parent_category']) && $_POST['submit_parent_category'] 
         echo $check;
     }
 } else if (isset($_POST['update_sub_category']) && $_POST['update_sub_category'] == "update") {
-    $catid = trim(strip_tags($_POST['updatesub_cat_id']));
-    $catname = trim(strip_tags($_POST['updatesubcategory_name']));
+    $catid = trim(strip_tags($_POST['subcat']));
+    $catname = trim(strip_tags($_POST['subcategory_name']));
     $description = trim(strip_tags($_POST['description']));
     $data = array("category" => $catname, "description" => $description, 'updated_at' => date("Y-m-d H:i:s"));
     $con['id'] = $catid;
@@ -581,10 +618,38 @@ if (isset($_POST['submit_parent_category']) && $_POST['submit_parent_category'] 
     }
 
     if (!empty($subcat) && $db->update('categories', $data, $con)) {
-        echo "OK";
+        $check = "OK";
     } else {
-        echo "FAILED";
+        $check = "FAILED";
     }
+
+    if (isset($_FILES['posters']) && count($_FILES['posters']) > 0) {
+        for ($i = 0; $i < count($_FILES['posters']); $i++) {
+            $target_image_dir = "category/subcats/posters/";
+            @$extension = strtolower(pathinfo($_FILES["posters"]["name"][$i], PATHINFO_EXTENSION));
+            $target_image_file = $target_image_dir . time() . $i . '.' . $extension;
+            // Valid file extensions
+            $extensions_arr = array("jpg", "jpeg", "png");
+
+            if (in_array($extension, $extensions_arr)) {
+                if (($_FILES['posters']['size'][$i] <= $maxsize) || ($_FILES["posters"]["size"][$i] != 0)) {
+                    if (move_uploaded_file($_FILES['posters']['tmp_name'][$i], $target_image_file)) {
+                        $data = array('cat_id' => $catid, 'created_at' => date("Y-m-d H:i:s"), 'updated_at' => date("Y-m-d H:i:s"));
+                        $data['poster'] = $target_image_file;
+
+                        if ($db->insert('category_posters', $data)) {
+                            $check = "OK";
+                        } else {
+                            $check = "FAILED TO SAVE POSTERS";
+                        }
+                    }
+                }
+            }/*  else {
+                echo "Invalid file extension.";
+            } */
+        }
+    }
+    echo $check;
 } else if (isset($_POST['delete_sub_category']) && $_POST['delete_sub_category'] == "delete") {
     $catid = trim(strip_tags($_POST['delete_subcat']));
     $con['id'] = $catid;
@@ -595,6 +660,21 @@ if (isset($_POST['submit_parent_category']) && $_POST['submit_parent_category'] 
     if (!empty($subcat) && $db->delete('categories', $con)) {
         if (!empty($subcat['thumbnail']) && file_exists("./" . $subcat['thumbnail'])) {
             unlink("./" . $subcat['thumbnail']);
+        }
+        echo "OK";
+    } else {
+        echo "FAILED";
+    }
+} else if (isset($_POST['del_subcat_posters']) && $_POST['del_subcat_posters'] == "delete") {
+    $posertid = trim(strip_tags($_POST['posterid']));
+    $con['id'] = $posertid;
+    $conditions['where'] = array('id' => $posertid);
+    $conditions['return_type'] = 'single';
+    $poster = $db->getRows('category_posters', $conditions);
+
+    if (!empty($poster) && $db->delete('category_posters', $con)) {
+        if (!empty($poster['poster']) && file_exists("./" . $poster['poster'])) {
+            unlink("./" . $poster['poster']);
         }
         echo "OK";
     } else {
