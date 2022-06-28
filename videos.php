@@ -701,7 +701,8 @@ $explore_videos = $db->readExploreVideos();
                                 xhr.upload.addEventListener("progress", function(evt) {
                                     if (evt.lengthComputable) {
                                         var percentComplete = ((evt.loaded / evt.total) * 100);
-                                        $(".progress-bar").width(percentComplete + '%');
+                                        $('.progress-bar').css("width", percentComplete.toFixed(1) + '%');
+                                        //$(".progress-bar").width(percentComplete + '%');
                                         $(".progress-bar").html(percentComplete.toFixed(2) + '%');
                                     }
                                 }, false);

@@ -98,7 +98,7 @@ if (isset($_POST['submit_new_video'])) {
         } else {
             if (((isset($_FILES['video']['name']) && $_FILES['video']['name'] != '') ||
                 (isset($_FILES['audio']['name']) && $_FILES['audio']['name'] != ''))) {
-                $maxsize = 500242880; // 5000MB
+                $maxsize = 5002428800; // 5000MB
                 if (!empty($_FILES['video']['name'])) {
                     $name = $_FILES['video']['name'];
                     $target_dir = "videos/";

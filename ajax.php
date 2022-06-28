@@ -67,7 +67,7 @@ if (isset($_POST['submit_parent_category']) && $_POST['submit_parent_category'] 
         if (!empty($posters)) {
             $posterarr = array();
             foreach ($posters as $p) {
-                array_push($posterarr, $s['id']);
+                array_push($posterarr, $p['id']);
                 if (!empty($p['poster']) && file_exists("./" . $p['poster'])) {
                     unlink("./" . $p['poster']);
                 }
@@ -374,7 +374,7 @@ if (isset($_POST['submit_parent_category']) && $_POST['submit_parent_category'] 
             $data['video_url'] = $videolink;
         }
     } else {
-        $maxsize = 500242880; // 5000MB
+        $maxsize = 5002428800; // 5000MB
         if ((isset($_FILES['video']['name']) && $_FILES['video']['name'] != '')) {
             $name = $_FILES['video']['name'];
             $target_dir = "videos/";
@@ -652,11 +652,109 @@ if (isset($_POST['submit_parent_category']) && $_POST['submit_parent_category'] 
     echo $check;
 } else if (isset($_POST['delete_sub_category']) && $_POST['delete_sub_category'] == "delete") {
     $catid = trim(strip_tags($_POST['delete_subcat']));
-    $con['id'] = $catid;
+
+    $pvarr = array();
+    $parentcatsvid = $db->getRows('categories', array('where' => array('id' => $catid)));
+    if (!empty($parentcatsvid)) {
+        foreach ($parentcatsvid as $pv) {
+            array_push($pvarr, $pv['id']);
+        }
+    }
+
+    $pvarr = implode(',', $pvarr);
+
+    if (!empty($parentcatsvid)) {
+        $subarr = array();
+        foreach ($parentcatsvid as $s) {
+            array_push($subarr, $s['id']);
+            if (!empty($s['thumbnail']) && file_exists("./" . $s['thumbnail'])) {
+                unlink("./" . $s['thumbnail']);
+            }
+        }
+        $delpostersid = implode(',', $subarr);
+        $posters = $db->customQuery("SELECT * FROM category_posters WHERE cat_id IN($delpostersid)");
+        if (!empty($posters)) {
+            $posterarr = array();
+            foreach ($posters as $p) {
+                array_push($posterarr, $p['id']);
+                if (!empty($p['poster']) && file_exists("./" . $p['poster'])) {
+                    unlink("./" . $p['poster']);
+                }
+            }
+            $posterarr = implode(',', $posterarr);
+            $db->customDelete("DELETE FROM category_posters WHERE ID IN($posterarr)");
+        }
+        $subarr = implode(',', $subarr);
+        //$db->customDelete("DELETE FROM categories WHERE ID IN($subarr)");
+    }
+
+    $profile = $db->customQuery("SELECT * FROM profiles WHERE profile_type IN($pvarr)");
+    if (!empty($profile)) {
+        $profile_ids = array();
+        foreach ($profile as $p) {
+            array_push($profile_ids, $p['id']);
+            if (!empty($po['avatar']) && file_exists("./" . $po['avatar'])) {
+                unlink("./" . $po['avatar']);
+            }
+            if (!empty($po['poster']) && file_exists("./" . $po['poster'])) {
+                unlink("./" . $po['poster']);
+            }
+        }
+
+        if (count($profile_ids) > 0) {
+            $profile_ids = implode(',', $profile_ids);
+
+            $poster = $db->customQuery("SELECT * FROM profiles_images WHERE profile_id IN($profile_ids)");
+            if (!empty($poster)) {
+                foreach ($poster as $po) {
+                    if (!empty($po['poster']) && file_exists("./" . $po['poster'])) {
+                        unlink("./" . $po['poster']);
+                    }
+                }
+            }
+
+            $db->customDelete("DELETE FROM profiles_images WHERE profile_id IN ($profile_ids)");
+            $db->customDelete("DELETE FROM tags WHERE profile_id IN ($profile_ids)");
+        }
+
+        $profilecondel['profile_type'] = $catid;
+        $db->delete('profiles', $profilecondel);
+    }
+
+    $videos = $db->customQuery("SELECT * FROM videos WHERE catid in ($pvarr)");
+
+    $vid = array();
+    if (!empty($videos)) {
+        $explore_videos = $db->readExploreVideos();
+
+        foreach ($videos as $v) {
+            array_push($vid, $v['id']);
+            if (!empty($explore_videos) && count($explore_videos) > 0) {
+                if (($key = array_search($v['id'], $explore_videos)) !== false) {
+                    unset($explore_videos[$key]);
+                }
+            }
+            if (!empty($v['video_url']) && file_exists("./" . $v['video_url']) && $v['type'] = 'recorded') {
+                unlink("./" . $v['video_url']);
+            }
+            if (!empty($v['audio_url']) && file_exists("./" . $v['audio_url']) && $v['type'] = 'recorded') {
+                unlink("./" . $v['audio_url']);
+            }
+            if (!empty($v['thumbnail']) && file_exists("./" . $v['thumbnail'])) {
+                unlink("./" . $v['thumbnail']);
+            }
+        }
+        file_put_contents("explore.json", json_encode(array('explore_list' => $explore_videos)));
+        $vid = implode(',', $vid);
+        $db->customDelete("DELETE FROM videos WHERE id IN ($vid)");
+        $db->customDelete("DELETE FROM tags WHERE video_id catid ($vid)");
+    }
+
     $conditions['where'] = array('id' => $catid);
     $conditions['return_type'] = 'single';
     $subcat = $db->getRows('categories', $conditions);
 
+    $con['id'] = $catid;
     if (!empty($subcat) && $db->delete('categories', $con)) {
         if (!empty($subcat['thumbnail']) && file_exists("./" . $subcat['thumbnail'])) {
             unlink("./" . $subcat['thumbnail']);

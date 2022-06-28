@@ -380,8 +380,9 @@ $categories = $db->getRows('categories', $con);
                     xhr.upload.addEventListener("progress", function(evt) {
                         if (evt.lengthComputable) {
                             var percentComplete = ((evt.loaded / evt.total) * 100);
-                            $(".progress-bar").width(percentComplete + '%');
-                            $(".progress-bar").html(percentComplete.toFixed(2) + '%');
+                            $('.progress-bar').css("width", percentComplete.toFixed(1) + '%');
+                            //$(".progress-bar").width(percentComplete.toFixed(1) + '%');
+                            $(".progress-bar").html(percentComplete.toFixed(1) + '%');
                         }
                     }, false);
                     return xhr;
@@ -397,7 +398,7 @@ $categories = $db->getRows('categories', $con);
 
                 beforeSend: function() {
                     $(".progress-bar").width('0%');
-                    $('#uploadStatus').html('<img src="img/loading.gif"/>');
+                    $('#uploadStatus').html('<img src="img/loading.gif" width="50px"/>');
                 },
                 error: function(jqXHR, exception) {
                     $('#uploadStatus').html('<p style="color:#EA4335;">' + jqXHR.responseText + '</p>');
