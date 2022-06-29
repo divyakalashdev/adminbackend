@@ -19,17 +19,6 @@ $sql = "SELECT s.*, p.category as parent_cat, p.id as catid FROM categories p IN
 $subcategories = $db->customQuery($sql);
 ?>
 <style>
-  ul {
-    padding: 20px;
-    list-style-type: decimal;
-
-  }
-
-  ul li {
-    margin: 0 10px;
-    padding: 0 10px;
-  }
-
   .tab {
     width: 50px;
   }

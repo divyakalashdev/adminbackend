@@ -267,9 +267,9 @@ $explore_videos = $db->readExploreVideos();
                                                     foreach ($categories as $cat) {
                                                         $selected = '';
                                                         if ($cat['id'] != 2) {
-                                                            if ($parent_category == $cat['id']) {
+                                                            /* if ($parent_category == $cat['id']) {
                                                                 $selected = 'selected';
-                                                            }
+                                                            } */
                                                             echo '<option value="' . $cat['id'] . '" ' . $selected . '>' . $cat['category'] . '</option>';
                                                         }
                                                     }

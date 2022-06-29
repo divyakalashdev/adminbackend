@@ -14,7 +14,7 @@ $path = DB::getBasePath();
     <title> <?php if (isset($_COOKIE['type'])) {
                 echo $_COOKIE['type'];
             } ?> - Dashboard</title>
-    <link rel="icon" href="img/logo-icon.png" type="image/png">
+    <link rel="icon" href="img/logo.png" type="image/png">
 
     <link rel="stylesheet" href="css/bootstrap1.min.css" />
 
