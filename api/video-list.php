@@ -7,15 +7,15 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 include '../DB.class.php';
 $db = new DB;
-  
-try{
+
+try {
     $offset = $_GET['_start'];
     $limit = $_GET['_limit'];
     $distype = $_GET['distype'];
     $list = array();
-    
-    if($distype == 'profile'){
-        if(isset($_GET['pid'])){
+
+    if ($distype == 'profile') {
+        if (isset($_GET['pid'])) {
             $profile_id = $_GET['pid'];
             $con = array(
                 'start' => $offset,
@@ -23,14 +23,14 @@ try{
                 'where' => array('profile_id' => $profile_id, 'status' => 0),
                 'order_by' => 'arrange_id',
             );
-            
+
             $videos = $db->getRows('videos', $con);
-            if(!empty($videos)){
-                foreach($videos as $v){
-                    if(empty($v['video_url'])){
+            if (!empty($videos)) {
+                foreach ($videos as $v) {
+                    if (empty($v['video_url'])) {
                         $v['media'] = $v['audio_url'];
                         $v['media_type'] = "audio";
-                    }else{
+                    } else {
                         $v['media'] = $v['video_url'];
                         $v['media_type'] = "video";
                     }
@@ -38,7 +38,7 @@ try{
                     unset($v['audio_url']);
                     array_push($list, $v);
                 }
-            }else{
+            } else {
                 $catid = $_GET['pid'];
                 $con = array(
                     'start' => $offset,
@@ -47,8 +47,8 @@ try{
                     'order_by' => 'id DESC',
                 );
                 $profile = $db->getRows('profiles', $con);
-                if(!empty($profile)){
-                    foreach($profile as $p){
+                if (!empty($profile)) {
+                    foreach ($profile as $p) {
                         $p['catid'] = $p['profile_type'];
                         $p['title'] = $p['name'];
                         $p['thumbnail'] = $p['avatar'];
@@ -58,12 +58,12 @@ try{
                         unset($p['name']);
                         unset($p['avatar']);
                         unset($p['poster']);
-                        
+
                         array_push($list, $p);
                     }
                 }
             }
-        }else if(isset($_GET['catid'])){
+        } else if (isset($_GET['catid'])) {
             $catid = $_GET['catid'];
             $con = array(
                 'start' => $offset,
@@ -72,8 +72,8 @@ try{
                 'order_by' => 'id DESC',
             );
             $profile = $db->getRows('profiles', $con);
-            if(!empty($profile)){
-                foreach($profile as $p){
+            if (!empty($profile)) {
+                foreach ($profile as $p) {
                     $p['catid'] = $p['profile_type'];
                     $p['title'] = $p['name'];
                     $p['thumbnail'] = $p['avatar'];
@@ -83,24 +83,24 @@ try{
                     unset($p['name']);
                     unset($p['avatar']);
                     unset($p['poster']);
-                    
+
                     array_push($list, $p);
                 }
-            }else{
+            } else {
                 $con = array(
                     'start' => $offset,
                     'limit' => $limit,
                     'where' => array('catid' => $catid),
                     'order_by' => 'arrange_id',
                 );
-                
+
                 $videos = $db->getRows('videos', $con);
-                if(!empty($videos)){
-                    foreach($videos as $v){
-                        if(empty($v['video_url'])){
+                if (!empty($videos)) {
+                    foreach ($videos as $v) {
+                        if (empty($v['video_url'])) {
                             $v['media'] = $v['audio_url'];
                             $v['media_type'] = "audio";
-                        }else{
+                        } else {
                             $v['media'] = $v['video_url'];
                             $v['media_type'] = "video";
                         }
@@ -111,28 +111,28 @@ try{
                 }
             }
         }
-        
+
         //print_r($list);exit;
-    }else if(isset($_GET['catid'])){
+    } else if (isset($_GET['catid'])) {
         $catid = $_GET['catid'];
-        if($catid == '2'){
+        if ($catid == '2') {
             $file = fopen("../explore.json", "r");
             //Output lines until EOF is reached
-            while(! feof($file)) {
-              $line = fgets($file);
+            while (!feof($file)) {
+                $line = fgets($file);
             }
             fclose($file);
             $explore_videos = json_decode($line, true);
             $exp_video_id = implode(',', $explore_videos['explore_list']);
-            
-            $sql = 'SELECT * FROM videos WHERE id IN('.$exp_video_id.') ORDER BY FIELD(id,'.$exp_video_id.')';
+
+            $sql = 'SELECT * FROM videos WHERE id IN(' . $exp_video_id . ') ORDER BY FIELD(id,' . $exp_video_id . ')';
 
             $videos = $db->customQuery($sql);
-            foreach($videos as $v){
-                if(empty($v['video_url'])){
+            foreach ($videos as $v) {
+                if (empty($v['video_url'])) {
                     $v['media'] = $v['audio_url'];
                     $v['media_type'] = "audio";
-                }else{
+                } else {
                     $v['media'] = $v['video_url'];
                     $v['media_type'] = "video";
                 }
@@ -140,21 +140,22 @@ try{
                 unset($v['audio_url']);
                 array_push($list, $v);
             }
-        }else{
+        } else {
             $con = array(
                 'start' => $offset,
                 'limit' => $limit,
                 'where' => array('catid' => $catid),
                 'order_by' => 'arrange_id',
             );
-            
+            //$sql = "SELECT v.*, sum(vr.views) as vview, sum(vr.total_duration) as tduration FROM videos as v JOIN views_ratings as vr ON vr.media_id = v.id WHERE v.catid = $catid ORDER BY v.arrange_id LIMIT  $offset, $limit";
             $videos = $db->getRows('videos', $con);
-            if(!empty($videos)){
-                foreach($videos as $v){
-                    if(empty($v['video_url'])){
+            //$videos = $db->customQuery($sql);
+            if (!empty($videos)) {
+                foreach ($videos as $v) {
+                    if (empty($v['video_url'])) {
                         $v['media'] = $v['audio_url'];
                         $v['media_type'] = "audio";
-                    }else{
+                    } else {
                         $v['media'] = $v['video_url'];
                         $v['media_type'] = "video";
                     }
@@ -162,7 +163,7 @@ try{
                     unset($v['audio_url']);
                     array_push($list, $v);
                 }
-            }else{
+            } else {
                 $con = array(
                     'start' => $offset,
                     'limit' => $limit,
@@ -170,8 +171,8 @@ try{
                     'order_by' => 'id DESC',
                 );
                 $profile = $db->getRows('profiles', $con);
-                if(!empty($profile)){
-                    foreach($profile as $p){
+                if (!empty($profile)) {
+                    foreach ($profile as $p) {
                         $p['catid'] = $p['profile_type'];
                         $p['title'] = $p['name'];
                         $p['thumbnail'] = $p['avatar'];
@@ -181,20 +182,20 @@ try{
                         unset($p['name']);
                         unset($p['avatar']);
                         unset($p['poster']);
-                        
+
                         array_push($list, $p);
                     }
                 }
             }
         }
     }
-    $path = $db->getBasePath()."/";
-}catch(Exception $e) {
+    $path = $db->getBasePath() . "/";
+} catch (Exception $e) {
     $list = '';
 }
 
-if(!empty($list) && count($list) > 0){
+if (!empty($list) && count($list) > 0) {
     echo json_encode(array("status" => 200, "msg" => "Data found.", "video_list" => $list, 'path' => $path));
-}else{
+} else {
     echo json_encode(array("status" => 201, "msg" => "No data found."));
 }

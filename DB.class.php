@@ -70,13 +70,18 @@ class DB
     {
         $result = $this->db->query($sql);
         @$rows = $result->num_rows;
-        if ($rows > 0 && $rows == 1) {
+        if ($rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $data[] = $row;
+            }
+        }
+        /* if ($rows > 0 && $rows == 1) {
             $data = $result->fetch_assoc();
         } else if ($rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 $data[] = $row;
             }
-        }
+        } */
         return empty($data) ? false : $data;
     }
 

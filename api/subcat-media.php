@@ -49,7 +49,7 @@ try {
 }
 
 if (!empty($category_info) && count($category_info) > 0) {
-    echo json_encode(array("status" => 200, "msg" => "Data found.", "category_info" => $category_info, 'cat_posters' => $category_posters, "media_list" => $list, 'path' => $path));
+    echo json_encode(array("status" => 200, "msg" => "Data found.", "category_info" => $category_info[0], 'cat_posters' => $category_posters, "media_list" => $list, 'path' => $path));
 } else {
     echo json_encode(array("status" => 201, "msg" => "No data found."));
 }

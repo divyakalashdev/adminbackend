@@ -217,8 +217,8 @@ $path = DB::getBasePath();
                                         <!-- <h5>Dr. Robar Smith</h5> -->
                                     </div>
                                     <div class="profile_info_details">
-                                        <a href="#">My Profile </a>
-                                        <a href="#">Settings</a>
+                                        <!-- <a href="#">My Profile </a> -->
+                                        <a href="views-setting.php">Settings</a>
                                         <a href="#" data-toggle="modal" data-target="#logoutModal">Log Out </a>
                                     </div>
                                 </div>

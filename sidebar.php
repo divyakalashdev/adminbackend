@@ -71,6 +71,7 @@ foreach ($subcategories as $sub) {
       <ul>
         <li><a href="videos.php">Video</a></li>
         <li><a href="upload-video.php">Upload New</a></li>
+        <li><a href="views-setting.php">Views Setting</a></li>
       </ul>
     </li>
     <li class="">
